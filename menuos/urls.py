@@ -15,6 +15,7 @@ urlpatterns = [
     # Cadastros auxiliares
     path('cadastrar-cliente/', views.cadastrar_cliente, name='cadastrar_cliente'),
     path('cadastrar-motivo/', views.cadastrar_motivo, name='cadastrar_motivo'),
+    path('cadastrar-colaborador/', views.cadastrar_colaborador, name='cadastrar_colaborador'),
 
     # Validação AJAX
     path('validar-centro-custo/', views.validar_centrocusto, name='validar_centrocusto'),

@@ -1,5 +1,6 @@
 from django import forms
-from .models import AberturaOS, CentroDeCusto, Cliente, MotivoIntervencao
+from .models import AberturaOS, CentroDeCusto, Cliente, MotivoIntervencao, Colaborador
+
 
 class AberturaOSForm(forms.ModelForm):
     class Meta:
@@ -41,4 +42,18 @@ class MotivoIntervencaoForm(forms.ModelForm):
                 'class': 'form-input',
                 'placeholder': 'Descrição do Motivo'
             }),
+        }
+
+
+
+# cadastro de Colaboradores
+
+class ColaboradorForm(forms.ModelForm):
+    class Meta:
+        model = Colaborador
+        fields = ['matricula', 'nome', 'funcao']
+        widgets = {
+            'matricula': forms.TextInput(attrs={'placeholder': 'Matrícula do colaborador'}),
+            'nome': forms.TextInput(attrs={'placeholder': 'Nome do colaborador'}),
+            'funcao': forms.TextInput(attrs={'placeholder': 'Função do colaborador'}),
         }

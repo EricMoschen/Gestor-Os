@@ -1,8 +1,9 @@
+from dotenv import load_dotenv
 import os
 from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants
-
+load_dotenv()
 
 # Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,7 +63,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Banco de dados - PostgreSQL via dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default='sqlite:///db.sqlite3'  # Usado caso DATABASE_URL não esteja definida
     )
 }
 

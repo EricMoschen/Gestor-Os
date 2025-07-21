@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="flex min-h-screen bg-slate-900">
+    <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Sua Empresa" />
+                <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Cadastrar Colaborador</h2>
+                <p class="mt-2 text-sm text-gray-500">
+                    Preencha as informações abaixo para cadastrar um novo colaborador.
+                </p>
+
+                <!-- Mensagens de sucesso -->
+                {% if messages %}
+                    <div class="mt-4 text-green-500">
+                        {% for message in messages %}
+                            <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mt-8">
+                <form action="{% url 'cadastrar_colaborador' %}" method="POST" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="matricula" class="block text-sm font-medium text-gray-200">Matrícula</label>
+                        <div class="mt-2">
+                            <input id="matricula" name="matricula" type="text" value="{{ form.matricula.value|default:'' }}" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" placeholder="Matrícula do colaborador" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-gray-200">Nome</label>
+                        <div class="mt-2">
+                            <input id="nome" name="nome" type="text" value="{{ form.nome.value|default:'' }}" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" placeholder="Nome do colaborador" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="funcao" class="block text-sm font-medium text-gray-200">Função</label>
+                        <div class="mt-2">
+                            <input id="funcao" name="funcao" type="text" value="{{ form.funcao.value|default:'' }}" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" placeholder="Função do colaborador" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                            Cadastrar Colaborador
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

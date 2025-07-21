@@ -8,7 +8,7 @@ from datetime import datetime
 from django.views.decorators.http import require_http_methods
 
 from .models import AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
-from .forms import AberturaOSForm, ClienteForm, MotivoIntervencaoForm
+from .forms import AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm
 
 
 # Tela de Menu
@@ -249,3 +249,18 @@ def relatorio_view(request):
         "data_fim": data_fim,
     }
     return render(request, "menuos/relatorio.html", context)
+
+
+#cadastro de Colaboradores
+@login_required
+def cadastrar_colaborador(request):
+    if request.method == 'POST':
+        form = ColaboradorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Colaborador cadastrado com sucesso!')
+            return redirect('cadastrar_colaborador')  # Recarrega a mesma página
+    else:
+        form = ColaboradorForm()
+    
+    return render(request, 'cadastrar_colaborador.html', {'form': form})
