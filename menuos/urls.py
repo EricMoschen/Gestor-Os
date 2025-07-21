@@ -23,6 +23,8 @@ urlpatterns = [
     path('iniciar-os/', views.iniciar_os_view, name='iniciar_os'),
     path('buscar-dados-os/', views.buscar_dados_os, name='buscar_dados_os'),
     
+    path('lancamento-os/', views.lancamento_os, name='lancamento_os'),
+    path('listar-horas/', views.listar_horas, name='listar_horas'),
     
     path('relatorio/', views.relatorio_view, name='relatorio'),
 ]

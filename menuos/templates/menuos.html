@@ -39,12 +39,31 @@
                 <span class="text-lg font-semibold">Cadastrar Motivo</span>
             </a>
 
-            <!-- Acesso ao admin -->
-            <a href="/admin" class="group bg-gray-700 hover:bg-gray-600 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+            <!-- Cadastro de Colaborador -->
+            <a href="{% url 'cadastrar_colaborador' %}" class="group bg-purple-600 hover:bg-purple-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
                 <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <path d="M16 21v-2a4 4 0 0 0-8 0v2"/>
+                    <circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span class="text-lg font-semibold">Acesso Admin</span>
+                <span class="text-lg font-semibold">Cadastro de Colaborador</span>
+            </a>
+
+            <!-- Lançamento de OS -->
+            <a href="{% url 'lancamento_os' %}" class="group bg-pink-600 hover:bg-pink-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9 17v-6h13"/>
+                    <path d="M9 11V7a4 4 0 0 0-8 0v4h5z"/>
+                </svg>
+                <span class="text-lg font-semibold">Lançamento de OS</span>
+            </a>
+
+            <!-- Listar Horas -->
+            <a href="{% url 'listar_horas' %}" class="group bg-teal-600 hover:bg-teal-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span class="text-lg font-semibold">Listar Horas</span>
             </a>
         </div>
 

@@ -264,3 +264,13 @@ def cadastrar_colaborador(request):
         form = ColaboradorForm()
     
     return render(request, 'cadastrar_colaborador.html', {'form': form})
+
+
+
+def lancamento_os(request):
+    # Aqui você pode adicionar lógica para lidar com o formulário de lançamento de OS
+    return render(request, 'menuos/lancamento_os.html')
+
+def listar_horas(request):
+    # Aqui você pode buscar os dados para listar as horas, por enquanto só renderiza o template
+    return render(request, 'menuos/listar_horas.html')
