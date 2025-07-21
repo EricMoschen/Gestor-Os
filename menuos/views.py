@@ -203,7 +203,7 @@ def iniciar_os_view(request):
         except Exception as e:
             return JsonResponse({"sucesso": False, "mensagem": str(e)})
 
-    return render(request, 'menuos/iniciar_os.html')
+    return render(request, 'menuos/lancamento_os.html')
 
 
 
