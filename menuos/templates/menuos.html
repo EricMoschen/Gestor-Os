@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
+    <div class="w-full max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-10">Painel de Ordens de Serviço</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Abrir Nova OS -->
+            <a href="{% url 'abrir_os' %}" class="group bg-indigo-600 hover:bg-indigo-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 4v16m8-8H4"/>
+                </svg>
+                <span class="text-lg font-semibold">Abrir Nova OS</span>
+            </a>
+
+            <!-- Ver OSs existentes -->
+            <a href="{% url 'listar_os' %}" class="group bg-slate-800 hover:bg-slate-700 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 7h18M3 12h18M3 17h18"/>
+                </svg>
+                <span class="text-lg font-semibold">Lista de OSs</span>
+            </a>
+
+            <!-- Cadastro de Clientes -->
+            <a href="{% url 'cadastrar_cliente' %}" class="group bg-green-600 hover:bg-green-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 4v16m8-8H4"/>
+                </svg>
+                <span class="text-lg font-semibold">Cadastrar Cliente</span>
+            </a>
+
+            <!-- Cadastro de Motivos -->
+            <a href="{% url 'cadastrar_motivo' %}" class="group bg-yellow-600 hover:bg-yellow-500 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <span class="text-lg font-semibold">Cadastrar Motivo</span>
+            </a>
+
+            <!-- Acesso ao admin -->
+            <a href="/admin" class="group bg-gray-700 hover:bg-gray-600 rounded-lg p-6 flex flex-col items-center shadow-lg transition duration-300">
+                <svg class="w-12 h-12 mb-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <span class="text-lg font-semibold">Acesso Admin</span>
+            </a>
+        </div>
+
+        <p class="mt-10 text-center text-gray-400 text-sm">Desenvolvido por você com 💻</p>
+    </div>
+</div>
+
+{% endblock %}

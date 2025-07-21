@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="max-w-4xl mx-auto p-6 bg-white rounded shadow">
+
+    <h1 class="text-2xl font-bold mb-6">Gerar Relatório</h1>
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+            <label for="tipo" class="block font-semibold mb-1">Tipo de
+                Relatório:</label>
+            <select name="tipo" id="tipo" class="border rounded w-full p-2"
+                onchange="atualizarDatalist()">
+                <option value>-- Selecione --</option>
+                <option value="matricula" {% if tipo == 'matricula' %}selected{%
+                    endif %}>Por Matrícula</option>
+                <option value="centro_custo" {% if tipo == 'centro_custo'
+                    %}selected{% endif %}>Por Centro de Custo</option>
+                <option value="os" {% if tipo == 'os' %}selected{% endif %}>Por
+                    Ordem de Serviço</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="valor" class="block font-semibold mb-1">Valor:</label>
+            <input list="sugestoes" name="valor" id="valor"
+                class="border rounded w-full p-2" value="{{ valor|default:'' }}"
+                placeholder="Digite ou escolha uma opção...">
+            <datalist id="sugestoes">
+                <!-- Será preenchido via JS -->
+            </datalist>
+        </div>
+
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <label for="data_inicio" class="block font-semibold mb-1">Data
+                    Início:</label>
+                <input type="date" name="data_inicio" id="data_inicio"
+                    value="{{ data_inicio }}" class="border rounded w-full p-2">
+            </div>
+            <div class="flex-1">
+                <label for="data_fim" class="block font-semibold mb-1">Data
+                    Fim:</label>
+                <input type="date" name="data_fim" id="data_fim"
+                    value="{{ data_fim }}" class="border rounded w-full p-2">
+            </div>
+        </div>
+
+        <button type="submit"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Gerar Relatório
+        </button>
+    </form>
+
+  {% if resultados %}
+<div class="mt-8">
+    <h2 class="text-xl font-bold mb-4">Resultados:</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded shadow">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="py-2 px-4 border-b text-left">Nº OS</th>
+                    <th class="py-2 px-4 border-b text-left">Descrição</th>
+                    <th class="py-2 px-4 border-b text-left">Horas Normais</th>
+                    <th class="py-2 px-4 border-b text-left">Horas 50%</th>
+                    <th class="py-2 px-4 border-b text-left">Horas 100%</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in resultados %}
+                <tr class="hover:bg-gray-50">
+                    <td class="py-2 px-4 border-b">{{ r.numero_os }}</td>
+                    <td class="py-2 px-4 border-b">{{ r.descricao }}</td>
+                    <td class="py-2 px-4 border-b">{{ r.horas_normais }}</td>
+                    <td class="py-2 px-4 border-b">{{ r.horas_50 }}</td>
+                    <td class="py-2 px-4 border-b">{{ r.horas_100 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{{ colaboradores|json_script:"colaboradores-data" }}
+{{ centros|json_script:"centros-data" }}
+{{ ordens|json_script:"ordens-data" }}
+
+<script>
+  const colaboradores = JSON.parse(document.getElementById("colaboradores-data").textContent);
+  const centros = JSON.parse(document.getElementById("centros-data").textContent);
+  const ordens = JSON.parse(document.getElementById("ordens-data").textContent);
+
+  const tipoSelect = document.getElementById("tipo");
+  const valorInput = document.getElementById("valor");
+  const datalist = document.getElementById("sugestoes");
+
+  function atualizarDatalist() {
+    const tipo = tipoSelect.value;
+    let lista = [];
+
+    if (tipo === "matricula") {
+      lista = colaboradores;
+    } else if (tipo === "centro_custo") {
+      lista = centros;
+    } else if (tipo === "os") {
+      lista = ordens;
+    } else {
+      lista = [];
+    }
+
+    datalist.innerHTML = "";
+
+    lista.forEach(item => {
+      const option = document.createElement("option");
+      option.value = item;
+      datalist.appendChild(option);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    atualizarDatalist();
+  });
+</script>
+
+
+{% endif %}
+{% endblock %}

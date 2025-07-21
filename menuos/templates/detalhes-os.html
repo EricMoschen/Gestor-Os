@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="min-h-screen bg-slate-900 text-white px-6 py-10">
+    <h1 class="text-3xl font-bold mb-6 text-center">Detalhes da OS #{{ os.numero_os }}</h1>
+
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+            <h2 class="text-xl font-semibold">Informações Gerais</h2>
+            <p><strong>Data de Abertura:</strong> {{ os.data_abertura|date:"d/m/Y H:i" }}</p>
+            <p><strong>Centro de Custo:</strong> {{ os.cc }}</p>
+            <p><strong>Prioridade:</strong> 
+                {% if os.prioridade == 'B' %}
+                    Baixa
+                {% elif os.prioridade == 'A' %}
+                    Alta
+                {% elif os.prioridade == 'C' %}
+                    Crítica
+                {% endif %}
+            </p>
+            <p><strong>Cliente:</strong> {{ os.cod_cliente }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h2 class="text-xl font-semibold">Descrição do Problema</h2>
+            <p>{{ os.descricao }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h2 class="text-xl font-semibold">Responsável</h2>
+            <p>{{ os.responsavel }}</p>
+        </div>
+    </div>
+
+    <div class="mt-6 text-center">
+        <a href="{% url 'listar_os' %}" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded">
+            Voltar para a Lista
+        </a>
+    </div>
+</div>
+
+{% endblock %}
