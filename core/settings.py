@@ -3,13 +3,14 @@ from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants
 
+
 # Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # Após o deploy, substitua por ['gestor-os.onrender.com']
 
@@ -56,6 +57,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Banco de dados - PostgreSQL via dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
