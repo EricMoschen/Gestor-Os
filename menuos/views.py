@@ -280,7 +280,7 @@ def cadastrar_colaborador(request):
     return render(request, 'cadastrar_colaborador.html', {'form': form})
 
 
-# Views para telas simples
+# Lançamento/Apontamento de Ordens de Serviço Pelos Colaboradores
 
 def lancamento_os(request):
     """
@@ -289,6 +289,7 @@ def lancamento_os(request):
     return render(request, 'menuos/lancamento_os.html')
 
 
+# Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
 def listar_horas(request):
     """
     Renderiza a tela para listar horas registradas.
