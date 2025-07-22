@@ -57,9 +57,10 @@
                 required
                 class="block w-full rounded-md bg-slate-900 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
               >
-                <option value="">Selecione um Centro de Custo</option>
+                <option class="bg-slate-900 text-white" value="">Selecione um Centro de Custo</option>
                 {% for centro in centros %}
                   <option
+                    class="bg-slate-900 text-white"
                     value="{{ centro.codigo_custo }}"
                     {% if form.cc.value == centro.codigo_custo %}selected{% endif %}
                   >
@@ -79,9 +80,10 @@
                 required
                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
               >
-                <option value="">Selecione</option>
+                <option class="bg-slate-900 text-white" value="">Selecione</option>
                 {% for cliente in clientes %}
                   <option
+                    class="bg-slate-900 text-white"
                     value="{{ cliente.pk }}"
                     {% if form.cod_cliente.value == cliente.pk %}selected{% endif %}
                     data-nome="{{ cliente.nome_cliente }}"
@@ -116,9 +118,10 @@
                 required
                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
               >
-                <option value="">Selecione</option>
+                <option class="bg-slate-900 text-white" value="">Selecione</option>
                 {% for motivo in motivos %}
                   <option
+                    class="bg-slate-900 text-white"
                     value="{{ motivo.pk }}"
                     {% if form.cod_intervencao.value == motivo.pk %}selected{% endif %}
                     data-descricao="{{ motivo.descricao_motivo }}"
@@ -153,10 +156,10 @@
                 required
                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
               >
-                <option value="">Selecione</option>
-                <option value="B" {% if form.prioridade.value == "B" %}selected{% endif %}>Baixa</option>
-                <option value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Alta</option>
-                <option value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Crítica</option>
+                <option class="bg-slate-900 text-white" value="">Selecione</option>
+                <option class="bg-slate-900 text-white" value="B" {% if form.prioridade.value == "B" %}selected{% endif %}>Baixa</option>
+                <option class="bg-slate-900 text-white" value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Alta</option>
+                <option class="bg-slate-900 text-white" value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Crítica</option>
               </select>
             </div>
           </div>
