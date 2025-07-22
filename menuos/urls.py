@@ -17,10 +17,9 @@ urlpatterns = [
     path('cadastrar-cliente/', views.cadastrar_cliente, name='cadastrar_cliente'),  # Cadastro de clientes
     path('cadastrar-motivo/', views.cadastrar_motivo, name='cadastrar_motivo'),  # Cadastro de motivos de intervenção
     path('cadastrar-colaborador/', views.cadastrar_colaborador, name='cadastrar_colaborador'),  # Cadastro de colaboradores
+    path('cadastrar-centro-custo/', views.cadastrar_centro_de_custo, name='cadastrar_centro_de_custo'),  # Cadastro de centros de custo
 
-    # Rotas para funcionalidades AJAX e processos internos
-    path('validar-centro-custo/', views.validar_centrocusto, name='validar_centrocusto'),  # Validação via AJAX de centro de custo
-
+    # Rotas para iniciar OS e buscar dados via AJAX
     path('iniciar-os/', views.iniciar_os_view, name='iniciar_os'),  # Tela e API para iniciar o trabalho em uma OS
     path('buscar-dados-os/', views.buscar_dados_os, name='buscar_dados_os'),  # Busca dados via AJAX de OS e colaborador
 

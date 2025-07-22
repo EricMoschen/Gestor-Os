@@ -62,6 +62,27 @@ class MotivoIntervencaoForm(forms.ModelForm):
         }
 
 
+class CentroDeCustoForm(forms.ModelForm):
+    """
+    Formulário para cadastro e edição de Centros de Custo.
+    Garante que o código seja único e com tamanho máximo adequado.
+    """
+    class Meta:
+        model = CentroDeCusto
+        fields = ['codigo_custo', 'descricao_custo']
+        widgets = {
+            'codigo_custo': forms.TextInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Código do Centro de Custo (máx. 10 caracteres)'
+            }),
+            'descricao_custo': forms.TextInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Descrição do Centro de Custo'
+            }),
+        }
+
+
+
 class ColaboradorForm(forms.ModelForm):
     """
     Formulário para cadastro e edição de colaboradores.

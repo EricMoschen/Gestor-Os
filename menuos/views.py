@@ -12,7 +12,7 @@ from .models import (
     AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
 )
 from .forms import (
-    AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm
+    AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm, CentroDeCustoForm
 )
 
 
@@ -76,28 +76,29 @@ def criar_os(request):
         'form': form,
         'numero_os': numero_os,
         'clientes': Cliente.objects.all(),
-        'motivos': MotivoIntervencao.objects.all()
+        'motivos': MotivoIntervencao.objects.all(),
+        'centros': CentroDeCusto.objects.all(),
     })
 
 
-# Validação AJAX do Centro de Custo
+# Cadastro de Centro de Custo
 
-@csrf_exempt
-def validar_centrocusto(request):
+@login_required
+def cadastrar_centro_de_custo(request):
     """
-    Valida via AJAX se o código do centro de custo informado existe no banco.
-    Retorna JSON com a validação.
+    View para cadastro de Centros de Custo.
+    Exibe o formulário e processa a submissão, retornando mensagens de sucesso ou erro.
     """
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        codigo = request.GET.get('centro_de_custo', '').strip()
-        if not codigo:
-            return JsonResponse({'error': 'Centro de custo não informado'}, status=400)
+    if request.method == 'POST':
+        form = CentroDeCustoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Centro de Custo cadastrado com sucesso!')
+            return redirect('cadastrar_centro_de_custo')
+    else:
+        form = CentroDeCustoForm()
 
-        valido = CentroDeCusto.objects.filter(codigo_custo=codigo).exists()
-        return JsonResponse({'valido': valido})
-
-    return JsonResponse({'error': 'Requisição inválida'}, status=400)
-
+    return render(request, 'cadastrar_centro_de_custo.html', {'form': form})
 
 # Página de Sucesso ao Criar OS
 

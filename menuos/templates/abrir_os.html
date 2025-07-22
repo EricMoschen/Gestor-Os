@@ -3,14 +3,19 @@
 {% block body %}
 
 <div class="flex min-h-screen bg-slate-900">
-  <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+  <div
+    class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
     <div class="mx-auto w-full max-w-sm lg:w-96">
       <div>
-        <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Sua Empresa" />
-        <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Abrir Nova Ordem de Serviço</h2>
+        <img class="h-15 w-auto" src="{% static 'logo.png' %}"
+          alt="Sua Empresa" />
+        <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Abrir
+          Nova Ordem de Serviço</h2>
         <p class="mt-2 text-sm text-gray-500">
           Precisa de ajuda?
-          <a href="#" class="font-semibold text-indigo-300 hover:text-indigo-200">Entre em contato com o suporte.</a>
+          <a href="#"
+            class="font-semibold text-indigo-300 hover:text-indigo-200">Entre em
+            contato com o suporte.</a>
         </p>
 
       </div>
@@ -20,85 +25,119 @@
           {% csrf_token %}
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Número da OS</label>
+            <label class="block text-sm font-medium text-gray-200">Número da
+              OS</label>
             <div class="mt-2">
-              <input type="text" name="numero_os" value="{{ numero_os }}" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" readonly />
+              <input type="text" name="numero_os" value="{{ numero_os }}"
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
+                readonly />
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Descrição da OS</label>
+            <label class="block text-sm font-medium text-gray-200">Descrição da
+              OS</label>
             <div class="mt-2">
-              <textarea name="descricao" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" rows="4" placeholder="Descreva o problema ou a solicitação.">{{ form.descricao.value | default:''}}</textarea>
+              <textarea name="descricao" required
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
+                rows="4"
+                placeholder="Descreva o problema ou a solicitação.">{{ form.descricao.value | default:''}}</textarea>
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Centro de Custos</label>
+            <label class="block text-sm font-medium text-gray-200">Centro de
+              Custos</label>
             <div class="mt-2">
-              <input type="text" name="cc" id="centro_de_custo" value="{{ form.cc.value|default:'' }}" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm" placeholder="Digite o código do centro de custo" />
-              <div id="centro_de_custo_error" class="mt-2 text-sm text-red-500" style="display:none;">
-                O Centro de Custo informado não é válido.
-              </div>
+              <select name="cc" id="centro_de_custo" required
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm">
+                <option value>Selecione um Centro de Custo</option>
+                {% for centro in centros %}
+                <option value="{{ centro.codigo_custo }}" {% if form.cc.value ==
+                  centro.codigo_custo %}selected{% endif %}>
+                  {{ centro.codigo_custo }} - {{ centro.descricao_custo }}
+                </option>
+                {% endfor %}
+              </select>
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Código do Cliente</label>
+            <label class="block text-sm font-medium text-gray-200">Código do
+              Cliente</label>
             <div class="mt-2">
-              <select name="cod_cliente" id="codigo_cliente" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm">
-                <option value="">Selecione</option>
+              <select name="cod_cliente" id="codigo_cliente" required
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm">
+                <option value>Selecione</option>
                 {% for cliente in clientes %}
-                  <option value="{{ cliente.pk }}" {% if form.cod_cliente.value == cliente.pk %}selected{% endif %} data-nome="{{ cliente.nome_cliente }}">
-                    {{ cliente.codigo_cliente }}
-                  </option>
+                <option value="{{ cliente.pk }}" {% if form.cod_cliente.value ==
+                  cliente.pk %}selected{% endif %}
+                  data-nome="{{ cliente.nome_cliente }}">
+                  {{ cliente.codigo_cliente }}
+                </option>
                 {% endfor %}
               </select>
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Nome do Cliente</label>
+            <label class="block text-sm font-medium text-gray-200">Nome do
+              Cliente</label>
             <div class="mt-2">
-              <input type="text" name="nome_cliente" id="nome_cliente" class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm" placeholder="Nome do cliente aparecerá aqui" readonly />
+              <input type="text" name="nome_cliente" id="nome_cliente"
+                class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
+                placeholder="Nome do cliente aparecerá aqui" readonly />
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Código Motivo da Intervenção</label>
+            <label class="block text-sm font-medium text-gray-200">Código Motivo
+              da Intervenção</label>
             <div class="mt-2">
-              <select name="cod_intervencao" id="codigo_intervencao" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm">
-                <option value="">Selecione</option>
+              <select name="cod_intervencao" id="codigo_intervencao" required
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm">
+                <option value>Selecione</option>
                 {% for motivo in motivos %}
-                  <option value="{{ motivo.pk }}" {% if form.cod_intervencao.value == motivo.pk %}selected{% endif %} data-descricao="{{ motivo.descricao_motivo }}">
-                    {{ motivo.codigo_intervencao }}
-                  </option>
+                <option value="{{ motivo.pk }}" {% if form.cod_intervencao.value
+                  == motivo.pk %}selected{% endif %}
+                  data-descricao="{{ motivo.descricao_motivo }}">
+                  {{ motivo.codigo_intervencao }}
+                </option>
                 {% endfor %}
               </select>
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Descrição do Motivo</label>
+            <label class="block text-sm font-medium text-gray-200">Descrição do
+              Motivo</label>
             <div class="mt-2">
-              <input type="text" name="descricao_motivo" id="descricao_motivo" class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm" placeholder="Descrição do motivo aparecerá aqui" readonly />
+              <input type="text" name="descricao_motivo" id="descricao_motivo"
+                class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
+                placeholder="Descrição do motivo aparecerá aqui" readonly />
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Prioridade</label>
+            <label
+              class="block text-sm font-medium text-gray-200">Prioridade</label>
             <div class="mt-2">
-              <select name="prioridade" id="prioridade" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm">
-                <option value="">Selecione</option>
-                <option value="B" {% if form.prioridade.value == "B" %}selected{% endif %}>Baixa</option>
-                <option value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Alta</option>
-                <option value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Crítica</option>
+              <select name="prioridade" id="prioridade" required
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm">
+                <option value>Selecione</option>
+                <option value="B" {% if form.prioridade.value == "B"
+                  %}selected{% endif %}>Baixa</option>
+                <option value="A" {% if form.prioridade.value == "A"
+                  %}selected{% endif %}>Alta</option>
+                <option value="C" {% if form.prioridade.value == "C"
+                  %}selected{% endif %}>Crítica</option>
               </select>
             </div>
           </div>
 
           <div>
-            <button type="submit" class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            <button type="submit"
+              class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
               Abrir OS
             </button>
           </div>
@@ -129,44 +168,6 @@
       descricaoMotivo.value = selectedOption.getAttribute("data-descricao") || "";
     });
 
-    // Validação do Centro de Custo
-    const centroDeCustoInput = document.getElementById('centro_de_custo');
-    const erroDiv = document.getElementById('centro_de_custo_error');
-
-    centroDeCustoInput.addEventListener("blur", validateCentroDeCusto);
-    centroDeCustoInput.addEventListener("keydown", function (event) {
-      if (event.key === "Tab") {
-        setTimeout(validateCentroDeCusto, 0);
-      }
-    });
-
-    function validateCentroDeCusto() {
-      const centroDeCusto = centroDeCustoInput.value.trim();
-
-      if (centroDeCusto === '') {
-        erroDiv.style.display = 'none';
-        centroDeCustoInput.classList.remove("border-red-500");
-        return;
-      }
-
-      fetch(`/menuos/validar-centro-custo/?centro_de_custo=${centroDeCusto}`, {
-        method: 'GET',
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.valido) {
-            erroDiv.style.display = 'none';
-            centroDeCustoInput.classList.remove("border-red-500");
-          } else {
-            erroDiv.style.display = 'block';
-            centroDeCustoInput.classList.add("border-red-500");
-          }
-        })
-        .catch(error => {
-          console.error('Erro na requisição:', error);
-        });
-    }
   });
 </script>
 
