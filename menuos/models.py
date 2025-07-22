@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 import holidays
 
-
 class CentroDeCusto(models.Model):
     """
     Modelo que representa os centros de custo da empresa.
@@ -80,6 +79,7 @@ class Colaborador(models.Model):
         return f"{self.nome} ({self.matricula})"
 
 
+
 class RegistroInicioOS(models.Model):
     """
     Modelo que registra o início de uma OS por um colaborador.
@@ -96,13 +96,22 @@ class RegistroInicioOS(models.Model):
     matricula = models.CharField(max_length=20)
     numero_os = models.CharField(max_length=20)
     hora_inicio = models.DateTimeField(default=timezone.now)
+    hora_fim = models.DateTimeField(null=True, blank=True)
     codigo_dia = models.CharField(max_length=2, choices=DIA_CHOICES, blank=True)
 
     def save(self, *args, **kwargs):
-        """
-        Sobrescreve o método save para definir automaticamente o código do dia
-        baseado no dia da semana e se é feriado no Brasil.
-        """
+        # Atualiza o último lançamento sem hora_fim para este colaborador
+        if not self.pk:  # Só faz isso ao criar novo registro
+            ultimo = RegistroInicioOS.objects.filter(
+                matricula=self.matricula,
+                hora_fim__isnull=True
+            ).order_by('-hora_inicio').first()
+
+            if ultimo:
+                ultimo.hora_fim = self.hora_inicio  # Hora atual usada como fim do anterior
+                ultimo.save()
+
+        # Define o código do dia automaticamente
         data = self.hora_inicio.date()
         semana = self.hora_inicio.weekday()  # 0 = segunda, ..., 6 = domingo
         feriados = holidays.Brazil()
