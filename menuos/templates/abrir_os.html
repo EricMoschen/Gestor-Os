@@ -70,8 +70,7 @@
                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm">
                 <option value>Selecione</option>
                 {% for cliente in clientes %}
-                <option value="{{ cliente.pk }}" {% if form.cod_cliente.value ==
-                  cliente.pk %}selected{% endif %}
+                <option value="{{ cliente.pk }}" {% if form.cod_cliente.value == cliente.pk %}selected{% endif %}
                   data-nome="{{ cliente.nome_cliente }}">
                   {{ cliente.codigo_cliente }}
                 </option>
