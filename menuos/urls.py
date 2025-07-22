@@ -2,29 +2,30 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # Página principal do sistema (menu)
     path('', views.menuos_view, name='menuos'),
 
-    # Abertura de OS
-    path('abrir/', views.criar_os, name='abrir_os'),
-    path('sucesso/<str:numero>/', views.os_sucesso, name='os_sucesso'),
+    # Rotas relacionadas à abertura e gerenciamento de Ordens de Serviço (OS)
+    path('abrir/', views.criar_os, name='abrir_os'),  # Formulário para abrir nova OS
+    path('sucesso/<str:numero>/', views.os_sucesso, name='os_sucesso'),  # Página de sucesso após criação de OS
 
-    # Listagem e detalhes
-    path('listar-os/', views.listar_os, name='listar_os'),
-    path('detalhes-os/<str:numero_os>/', views.detalhes_os, name='detalhes_os'),
+    # Listagem e visualização detalhada de OSs
+    path('listar-os/', views.listar_os, name='listar_os'),  # Lista todas as OSs com filtros
+    path('detalhes-os/<str:numero_os>/', views.detalhes_os, name='detalhes_os'),  # Detalhes de uma OS específica
 
-    # Cadastros auxiliares
-    path('cadastrar-cliente/', views.cadastrar_cliente, name='cadastrar_cliente'),
-    path('cadastrar-motivo/', views.cadastrar_motivo, name='cadastrar_motivo'),
-    path('cadastrar-colaborador/', views.cadastrar_colaborador, name='cadastrar_colaborador'),
+    # Rotas para cadastros auxiliares usados no sistema
+    path('cadastrar-cliente/', views.cadastrar_cliente, name='cadastrar_cliente'),  # Cadastro de clientes
+    path('cadastrar-motivo/', views.cadastrar_motivo, name='cadastrar_motivo'),  # Cadastro de motivos de intervenção
+    path('cadastrar-colaborador/', views.cadastrar_colaborador, name='cadastrar_colaborador'),  # Cadastro de colaboradores
 
-    # Validação AJAX
-    path('validar-centro-custo/', views.validar_centrocusto, name='validar_centrocusto'),
+    # Rotas para funcionalidades AJAX e processos internos
+    path('validar-centro-custo/', views.validar_centrocusto, name='validar_centrocusto'),  # Validação via AJAX de centro de custo
+
+    path('iniciar-os/', views.iniciar_os_view, name='iniciar_os'),  # Tela e API para iniciar o trabalho em uma OS
+    path('buscar-dados-os/', views.buscar_dados_os, name='buscar_dados_os'),  # Busca dados via AJAX de OS e colaborador
+
+    # Rotas para lançamentos e visualizações adicionais
+    path('lancamento-os/', views.lancamento_os, name='lancamento_os'),  # Tela para lançamento de OS (início do trabalho)
+    path('listar-horas/', views.listar_horas, name='listar_horas'),  # Tela para listar horas lançadas pelos colaboradores
     
-    path('iniciar-os/', views.iniciar_os_view, name='iniciar_os'),
-    path('buscar-dados-os/', views.buscar_dados_os, name='buscar_dados_os'),
-    
-    path('lancamento-os/', views.lancamento_os, name='lancamento_os'),
-    path('listar-horas/', views.listar_horas, name='listar_horas'),
-    
-    path('relatorio/', views.relatorio_view, name='relatorio'),
 ]

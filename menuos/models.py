@@ -2,7 +2,12 @@ from django.db import models
 from django.utils import timezone
 import holidays
 
+
 class CentroDeCusto(models.Model):
+    """
+    Modelo que representa os centros de custo da empresa.
+    Cada centro de custo possui um código único e uma descrição.
+    """
     codigo_custo = models.CharField(max_length=10, unique=True)
     descricao_custo = models.CharField(max_length=255)
 
@@ -11,6 +16,10 @@ class CentroDeCusto(models.Model):
 
 
 class Cliente(models.Model):
+    """
+    Modelo que representa os clientes cadastrados no sistema.
+    Cada cliente tem um código único e um nome.
+    """
     codigo_cliente = models.CharField(max_length=20, unique=True)
     nome_cliente = models.CharField(max_length=100)
 
@@ -19,6 +28,10 @@ class Cliente(models.Model):
 
 
 class MotivoIntervencao(models.Model):
+    """
+    Motivos de intervenção possíveis para as Ordens de Serviço.
+    Cada motivo tem um código único e uma descrição detalhada.
+    """
     codigo_intervencao = models.CharField(max_length=20, unique=True)
     descricao_motivo = models.TextField()
 
@@ -27,28 +40,38 @@ class MotivoIntervencao(models.Model):
 
 
 class AberturaOS(models.Model):
+    """
+    Modelo principal de Ordem de Serviço (OS).
+    Contém informações da OS como número único, descrição, centro de custo, cliente e motivo.
+    Define níveis de prioridade e registra a data de abertura automaticamente.
+    """
     numero_os = models.CharField(max_length=20, unique=True)
     descricao = models.TextField()
-    cc = models.CharField("Centro de Custo", max_length=20)
+    cc = models.CharField("Centro de Custo", max_length=20)  # Centro de custo relacionado como texto (código)
 
+    # Relações com cliente e motivo de intervenção
     cod_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     cod_intervencao = models.ForeignKey(MotivoIntervencao, on_delete=models.CASCADE)
 
+    # Definição de prioridade com escolhas fixas
     PRIORIDADES = [
         ('B', 'Baixa'),
         ('A', 'Alta'),
         ('C', 'Crítica'),
     ]
     prioridade = models.CharField(max_length=10, choices=PRIORIDADES)
-    data_abertura = models.DateTimeField(auto_now_add=True)
+
+    data_abertura = models.DateTimeField(auto_now_add=True)  # Data e hora da criação da OS
 
     def __str__(self):
         return f"OS {self.numero_os} - Prioridade: {self.get_prioridade_display()}"
 
 
-
-
 class Colaborador(models.Model):
+    """
+    Representa os colaboradores que podem ser alocados para as OSs.
+    Cada colaborador possui matrícula única, nome e função.
+    """
     matricula = models.CharField(max_length=20, unique=True)
     nome = models.CharField(max_length=100)
     funcao = models.CharField(max_length=100)
@@ -57,9 +80,13 @@ class Colaborador(models.Model):
         return f"{self.nome} ({self.matricula})"
 
 
-
-
 class RegistroInicioOS(models.Model):
+    """
+    Modelo que registra o início de uma OS por um colaborador.
+    Armazena matrícula do colaborador, número da OS e horário de início.
+    Também categoriza o dia (normal, sábado, domingo/feriado) automaticamente.
+    """
+    # Categorias de dias para registro
     DIA_CHOICES = [
         ('ND', 'Dia Normal (Seg-Sex)'),
         ('SA', 'Sábado'),
@@ -72,16 +99,20 @@ class RegistroInicioOS(models.Model):
     codigo_dia = models.CharField(max_length=2, choices=DIA_CHOICES, blank=True)
 
     def save(self, *args, **kwargs):
+        """
+        Sobrescreve o método save para definir automaticamente o código do dia
+        baseado no dia da semana e se é feriado no Brasil.
+        """
         data = self.hora_inicio.date()
-        semana = self.hora_inicio.weekday()  # 0 = segunda, 6 = domingo
+        semana = self.hora_inicio.weekday()  # 0 = segunda, ..., 6 = domingo
         feriados = holidays.Brazil()
 
         if data in feriados or semana == 6:
-            self.codigo_dia = 'DF'
+            self.codigo_dia = 'DF'  # Domingo ou feriado
         elif semana == 5:
-            self.codigo_dia = 'SA'
+            self.codigo_dia = 'SA'  # Sábado
         else:
-            self.codigo_dia = 'ND'
+            self.codigo_dia = 'ND'  # Dia normal (segunda a sexta, não feriado)
 
         super().save(*args, **kwargs)
 

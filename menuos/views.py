@@ -1,27 +1,43 @@
 import json
+from datetime import datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_GET
 
-from .models import AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
-from .forms import AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm
+from .models import (
+    AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
+)
+from .forms import (
+    AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm
+)
 
 
-# Tela de Menu
+
+# Tela Principal (Menu)
 @login_required(login_url='login')
 def menuos_view(request):
+    """
+    Renderiza a página principal do sistema de Ordens de Serviço (Menu).
+    Apenas usuários autenticados podem acessar.
+    """
     return render(request, 'menuos.html')
 
 
-# Geração automática do número da OS
-def gerar_numero_os():
-    ano_atual = datetime.now().year
-    ano_sufixo = str(ano_atual)[-2:]  # Ex: 2024 -> 24
+#  Geração Automática do Número da Ordem de Serviço (OS)  
 
+def gerar_numero_os():
+    """
+    Gera um novo número de OS baseado no ano atual e na última OS cadastrada.
+    Formato: XXX-AA (ex: 001-24)
+    """
+    ano_atual = datetime.now().year
+    ano_sufixo = str(ano_atual)[-2:]  # Últimos dois dígitos do ano (ex: 2024 -> 24)
+
+    # Busca OS do ano atual
     os_do_ano = AberturaOS.objects.filter(numero_os__endswith=f"-{ano_sufixo}")
     
     if os_do_ano.exists():
@@ -31,13 +47,19 @@ def gerar_numero_os():
     else:
         novo_numero = 1
 
-    numero_formatado = str(novo_numero).zfill(3)  # Ex: 001, 002...
+    numero_formatado = str(novo_numero).zfill(3)  # Formata com zeros à esquerda (ex: 001)
     return f"{numero_formatado}-{ano_sufixo}"
 
 
-# Criação da OS
+# Criação da Ordem de Serviço (OS)
+
 @login_required
 def criar_os(request):
+    """
+    Cria uma nova OS. 
+    No GET, exibe formulário com número de OS gerado automaticamente.
+    No POST, salva a OS e redireciona para página de sucesso.
+    """
     numero_os = gerar_numero_os()
 
     if request.method == 'POST':
@@ -57,9 +79,15 @@ def criar_os(request):
         'motivos': MotivoIntervencao.objects.all()
     })
 
+
 # Validação AJAX do Centro de Custo
+
 @csrf_exempt
 def validar_centrocusto(request):
+    """
+    Valida via AJAX se o código do centro de custo informado existe no banco.
+    Retorna JSON com a validação.
+    """
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         codigo = request.GET.get('centro_de_custo', '').strip()
         if not codigo:
@@ -71,15 +99,23 @@ def validar_centrocusto(request):
     return JsonResponse({'error': 'Requisição inválida'}, status=400)
 
 
-# Página de Sucesso
+# Página de Sucesso ao Criar OS
+
 @login_required
 def os_sucesso(request, numero):
+    """
+    Exibe página de confirmação de criação de OS, mostrando o número gerado.
+    """
     return render(request, 'sucesso.html', {'numero_os': numero})
 
 
-# Listagem das OSs
+# Listagem das Ordens de Serviço
+
 @login_required
 def listar_os(request):
+    """
+    Lista as OSs com filtros opcionais por ano e prioridade.
+    """
     ano = request.GET.get('ano')
     prioridade = request.GET.get('prioridade')
 
@@ -101,16 +137,24 @@ def listar_os(request):
     })
 
 
-# Detalhes da OS
+# Detalhes de uma OS
+
 @login_required
 def detalhes_os(request, numero_os):
+    """
+    Mostra detalhes da OS identificada pelo número.
+    """
     os = get_object_or_404(AberturaOS, numero_os=numero_os)
     return render(request, 'detalhes-os.html', {'os': os})
 
 
-# Cadastro de Cliente
+# Cadastro de Clientes
+
 @login_required
 def cadastrar_cliente(request):
+    """
+    Formulário para cadastro de cliente.
+    """
     if request.method == 'POST':
         form = ClienteForm(request.POST)
         if form.is_valid():
@@ -123,9 +167,13 @@ def cadastrar_cliente(request):
     return render(request, 'cadastrar_cliente.html', {'form': form})
 
 
-# Cadastro de Motivo de Intervenção
+# Cadastro de Motivos de Intervenção
+
 @login_required
 def cadastrar_motivo(request):
+    """
+    Formulário para cadastro de motivos de intervenção.
+    """
     if request.method == 'POST':
         form = MotivoIntervencaoForm(request.POST)
         if form.is_valid():
@@ -138,25 +186,24 @@ def cadastrar_motivo(request):
     return render(request, 'cadastrar_motivo.html', {'form': form})
 
 
-# Redirecionamento simples para menuos (caso precise)
+#  Função auxiliar (opcional) para renderizar menu]
+
 def menuos(request):
+    """
+    Renderiza o menu principal (fallback).
+    """
     return render(request, 'menuos.html')
 
 
-
-#iniciar horas nas OS 
-import json
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods, require_GET
-from menuos.models import AberturaOS, Colaborador  # importe Colaborador também
-
-
-
-
+# Busca via AJAX dados da OS e colaborador
 
 @require_GET
 def buscar_dados_os(request):
+    """
+    Busca dados da OS e do colaborador para validação antes de iniciar OS.
+    Recebe: numero_os e matricula via GET.
+    Retorna JSON com validade e informações básicas.
+    """
     numero_os = request.GET.get('numero_os', '').strip()
     matricula = request.GET.get('matricula', '').strip()
 
@@ -175,9 +222,16 @@ def buscar_dados_os(request):
     except (AberturaOS.DoesNotExist, Colaborador.DoesNotExist):
         return JsonResponse({'valido': False})
 
-    
+
+# Início da OS (registro do início do trabalho)
+
 @require_http_methods(["GET", "POST"])
 def iniciar_os_view(request):
+    """
+    Tela para iniciar OS e registrar o início do trabalho.
+    No GET: exibe formulário.
+    No POST (JSON): registra início da OS para o colaborador.
+    """
     if request.method == "POST":
         if not request.body:
             return JsonResponse({"sucesso": False, "mensagem": "Dados não enviados."})
@@ -206,71 +260,38 @@ def iniciar_os_view(request):
     return render(request, 'menuos/lancamento_os.html')
 
 
+# Cadastro de Colaboradores
 
-
-from django.shortcuts import render
-from .models import RegistroInicioOS, Colaborador, AberturaOS, CentroDeCusto
-
-def relatorio_view(request):
-    resultados = []
-    tipo = valor = data_inicio = data_fim = None
-
-    if request.method == "POST":
-        tipo = request.POST.get("tipo")
-        valor = request.POST.get("valor")
-        data_inicio = request.POST.get("data_inicio")
-        data_fim = request.POST.get("data_fim")
-
-        registros = RegistroInicioOS.objects.all()
-
-        if tipo == "matricula" and valor:
-            registros = registros.filter(matricula=valor)
-        elif tipo == "os" and valor:
-            registros = registros.filter(numero_os=valor)
-        elif tipo == "centro_custo" and valor:
-            # Ajuste para seu model CentroDeCusto e filtro correto:
-            registros = registros.filter(
-                numero_os__in=AberturaOS.objects.filter(cc=valor).values_list("numero_os", flat=True)
-            )
-
-        if data_inicio and data_fim:
-            registros = registros.filter(hora_inicio__date__range=[data_inicio, data_fim])
-
-        resultados = registros.order_by("hora_inicio")
-
-    context = {
-        "resultados": resultados,
-        "colaboradores": list(Colaborador.objects.values_list("matricula", flat=True)),
-        "centros": list(CentroDeCusto.objects.values_list("codigo_custo", flat=True)),
-        "ordens": list(AberturaOS.objects.values_list("numero_os", flat=True)),
-        "tipo": tipo,
-        "valor": valor,
-        "data_inicio": data_inicio,
-        "data_fim": data_fim,
-    }
-    return render(request, "menuos/relatorio.html", context)
-
-
-#cadastro de Colaboradores
 @login_required
 def cadastrar_colaborador(request):
+    """
+    Formulário para cadastro de colaboradores.
+    """
     if request.method == 'POST':
         form = ColaboradorForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Colaborador cadastrado com sucesso!')
-            return redirect('cadastrar_colaborador')  # Recarrega a mesma página
+            return redirect('cadastrar_colaborador')
     else:
         form = ColaboradorForm()
     
     return render(request, 'cadastrar_colaborador.html', {'form': form})
 
 
+# Views para telas simples
 
 def lancamento_os(request):
-    # Aqui você pode adicionar lógica para lidar com o formulário de lançamento de OS
+    """
+    Renderiza a tela para lançamento/início da OS.
+    """
     return render(request, 'menuos/lancamento_os.html')
 
+
 def listar_horas(request):
-    # Aqui você pode buscar os dados para listar as horas, por enquanto só renderiza o template
+    """
+    Renderiza a tela para listar horas registradas.
+    """
     return render(request, 'menuos/listar_horas.html')
+
+
