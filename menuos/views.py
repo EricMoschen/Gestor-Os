@@ -291,9 +291,7 @@ def lancamento_os(request):
 
 # Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
 def listar_horas(request):
-    """
-    Renderiza a tela para listar horas registradas.
-    """
-    return render(request, 'menuos/listar_horas.html')
+    registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
+    return render(request, 'menuos/listar_horas.html', {'registros': registros})
 
 
