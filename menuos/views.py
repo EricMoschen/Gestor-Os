@@ -293,4 +293,3 @@ def lancamento_os(request):
 def listar_horas(request):
     registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
     return render(request, 'menuos/listar_horas.html', {'registros': registros})
-
