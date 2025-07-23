@@ -195,6 +195,15 @@
       descricaoMotivo.value = selectedOption.getAttribute("data-descricao") || "";
     });
   });
+
+  window.history.pushState(null, '', window.location.href);
+
+    window.onpopstate = function(event) {
+      // Quando o usuário clicar em voltar, redirecione para a página inicial
+      window.location.href = 'menuos/'; 
+    };
+
+
 </script>
 
 {% endblock %}
