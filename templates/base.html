@@ -8,6 +8,15 @@
     {% block head %}{% endblock head %}
 </head>
 <body>
-    {% block body %}{% endblock body %}
+    {% block body %}
+    
+        <script>
+                // Redirecionamento ao Menbu Principal ao clicar no botão Voltar do navegador
+            window.history.pushState(null, '', window.location.href);
+            window.onpopstate = function(event) {
+                window.location.href = "{% url 'menuos' %}";
+            };
+        </script>
+    {% endblock body %}
 </body>
 </html>

@@ -3,54 +3,64 @@
 
 {% block body %}
 <div class="flex min-h-screen bg-slate-900">
-    <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+    <div
+        class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
-                <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Sua Empresa" />
-                <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Cadastrar Centro de Custo</h2>
+                <img class="h-15 w-auto" src="{% static 'logo.png' %}"
+                    alt="Sua Empresa" />
+                <h2
+                    class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Cadastrar
+                    Centro de Custo</h2>
                 <p class="mt-2 text-sm text-gray-500">
-                    Preencha as informações abaixo para cadastrar um novo centro de custo.
+                    Preencha as informações abaixo para cadastrar um novo centro
+                    de custo.
                 </p>
 
                 <!-- Mensagens de sucesso -->
                 {% if messages %}
-                    <div class="mt-4 text-green-500">
-                        {% for message in messages %}
-                            <div>{{ message }}</div>
-                        {% endfor %}
-                    </div>
+                <div class="mt-4 text-green-500">
+                    {% for message in messages %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
                 {% endif %}
             </div>
 
             <div class="mt-8">
-                <form action="{% url 'cadastrar_centro_de_custo' %}" method="POST" class="space-y-6">
+                <form action="{% url 'cadastrar_centro_de_custo' %}"
+                    method="POST" class="space-y-6">
                     {% csrf_token %}
-                    
+
                     <div>
-                        <label for="codigo_custo" class="block text-sm font-medium text-gray-200">Código do Centro de Custo</label>
+                        <label for="codigo_custo"
+                            class="block text-sm font-medium text-gray-200">Código
+                            do Centro de Custo</label>
                         <div class="mt-2">
-                            <input id="codigo_custo" name="codigo_custo" type="text" maxlength="10" required
+                            <input id="codigo_custo" name="codigo_custo"
+                                type="text" maxlength="10" required
                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
                                 placeholder="Código do Centro de Custo"
-                                value="{{ form.codigo_custo.value|default:'' }}"
-                            />
+                                value="{{ form.codigo_custo.value|default:'' }}" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="descricao_custo" class="block text-sm font-medium text-gray-200">Descrição do Centro de Custo</label>
+                        <label for="descricao_custo"
+                            class="block text-sm font-medium text-gray-200">Descrição
+                            do Centro de Custo</label>
                         <div class="mt-2">
-                            <input id="descricao_custo" name="descricao_custo" type="text" required
+                            <input id="descricao_custo" name="descricao_custo"
+                                type="text" required
                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
                                 placeholder="Descrição do Centro de Custo"
-                                value="{{ form.descricao_custo.value|default:'' }}"
-                            />
+                                value="{{ form.descricao_custo.value|default:'' }}" />
                         </div>
                     </div>
 
                     <div>
-                        <button type="submit" 
-                                class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                        <button type="submit"
+                            class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
                             Cadastrar Centro de Custo
                         </button>
                     </div>
@@ -59,4 +69,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
