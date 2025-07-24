@@ -288,6 +288,7 @@ def listar_horas(request):
 
 
 # Logout do Usuário
+@require_GET
 def logout_view(request):
     logout(request)
-    return HttpResponse("Logout feito")
+    return HttpResponse("Logout automático feito.")

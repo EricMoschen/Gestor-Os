@@ -28,5 +28,5 @@ urlpatterns = [
     path('listar-horas/', views.listar_horas, name='listar_horas'),  # Tela para listar horas lançadas pelos colaboradores
     
     # Logout do usuário
-    path('logout/', views.logout_view, name='logout')
+    path('logout/', views.logout_view, name='logout'),
 ]
