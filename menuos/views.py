@@ -30,8 +30,7 @@ def menuos_view(request):
 
 
 #  Geração Automática do Número da Ordem de Serviço (OS)  
-@login_required
-def gerar_numero_os(request):
+def gerar_numero_os():
     """
     Gera um novo número de OS baseado no ano atual e na última OS cadastrada.
     Formato: XXX-AA (ex: 001-24)

@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']  # Após o deploy, substitua por ['gestor-os.onrender.com']
+ALLOWED_HOSTS = ['gestor-os.onrender.com']  
 
 # Aplicativos instalados
 INSTALLED_APPS = [
@@ -96,7 +96,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login e redirecionamento
-LOGIN_URL = 'usuario/login/'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/menuos/'
 
 # Estilo de mensagens Django
@@ -107,3 +107,7 @@ MESSAGE_TAGS = {
 
 # Configurações de sessão
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Segurança adicional para produção
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
