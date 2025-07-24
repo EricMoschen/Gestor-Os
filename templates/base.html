@@ -18,12 +18,24 @@
     window.location.href = "{% url 'menuos' %}";
     };
 });
+// Variável para controlar se o usuário está navegando internamente
+  let navegandoInternamente = false;
 
-    // Logout automático ao fechar a aba ou navegador
-    window.addEventListener('beforeunload', function () {
-            // Faz uma requisição para logout ao sair da página
-            navigator.sendBeacon("{% url 'logout' %}");
-        });
+  // Marca que o usuário clicou em algum link interno
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navegandoInternamente = true;
+    });
+  });
+
+  // No evento beforeunload (fechar aba, recarregar, sair da página)
+  window.addEventListener('beforeunload', function (event) {
+    if (!navegandoInternamente) {
+      // Se NÃO navegou internamente, faz o logout via sendBeacon
+      navigator.sendBeacon("{% url 'logout' %}");
+    }
+    // Se navegou internamente, não faz logout
+  });
 </script>
 
 </body>
