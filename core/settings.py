@@ -96,7 +96,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login e redirecionamento
-LOGIN_URL = 'login'
+LOGIN_URL = 'usuario/login/'
 LOGIN_REDIRECT_URL = '/menuos/'
 
 # Estilo de mensagens Django
