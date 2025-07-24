@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor OS</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    {% block head %}{% endblock head %}
-</head>
-<body>
-    {% block body %} {% endblock body %}
-    
-<script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestor OS</title>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+        {% block head %}{% endblock head %}
+    </head>
+    <body>
+        {% block body %} {% endblock body %}
+
+        <script>
     // Redirecionamento ao Menu Principal ao clicar no botão Voltar do navegador
     document.addEventListener('DOMContentLoaded', function() {
     window.history.pushState(null, '', window.location.href);
@@ -21,22 +21,20 @@
 // Controla se está navegando internamente
     let navegandoInternamente = false;
 
+  // Detecta navegação interna (links clicados)
     document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navegandoInternamente = true;
-        });
+    link.addEventListener('click', () => {
+    navegandoInternamente = true;
     });
+});
 
-    // Logout automático ao fechar aba ou recarregar
-    window.addEventListener('beforeunload', function () {
-        if (!navegandoInternamente) {
-            fetch("{% url 'logout' %}", {
-                method: 'GET',
-                keepalive: true,
-            });
-        }
-    });
+  // Executa logout automático ao fechar aba/janela (não em reload)
+    window.addEventListener('pagehide', function (event) {
+    if (!navegandoInternamente && document.visibilityState === 'hidden') {
+    navigator.sendBeacon("{% url 'logout' %}");
+    }
+});
 </script>
 
-</body>
+    </body>
 </html>
