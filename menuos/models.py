@@ -51,7 +51,9 @@ class AberturaOS(models.Model):
     # Relações com cliente e motivo de intervenção
     cod_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     cod_intervencao = models.ForeignKey(MotivoIntervencao, on_delete=models.CASCADE)
-
+    ssm = models.PositiveIntegerField("SSM", null=True, blank=True)
+    
+    
     # Definição de prioridade com escolhas fixas
     PRIORIDADES = [
         ('B', 'Baixa'),

@@ -10,7 +10,14 @@ class AberturaOSForm(forms.ModelForm):
     class Meta:
         model = AberturaOS
         fields = ['descricao', 'cc', 'cod_cliente', 'cod_intervencao', 'prioridade']
-
+        widgets = {
+            'ssm': forms.NumberInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Digite o número do SSM',
+                'min': 0,
+            }),
+        }
+        
     def clean_cc(self):
         """
         Valida se o código do centro de custo informado existe na base.

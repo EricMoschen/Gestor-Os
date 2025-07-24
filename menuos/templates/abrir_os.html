@@ -78,7 +78,7 @@
                 name="cod_cliente"
                 id="codigo_cliente"
                 required
-                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
               >
                 <option class="bg-slate-900 text-white" value="">Selecione</option>
                 {% for cliente in clientes %}
@@ -86,26 +86,11 @@
                     class="bg-slate-900 text-white"
                     value="{{ cliente.pk }}"
                     {% if form.cod_cliente.value == cliente.pk %}selected{% endif %}
-                    data-nome="{{ cliente.nome_cliente }}"
                   >
-                    {{ cliente.codigo_cliente }}
+                    {{ cliente.codigo_cliente }} - {{ cliente.nome_cliente }}
                   </option>
                 {% endfor %}
               </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-200">Nome do Cliente</label>
-            <div class="mt-2">
-              <input
-                type="text"
-                name="nome_cliente"
-                id="nome_cliente"
-                placeholder="Nome do cliente aparecerá aqui"
-                readonly
-                class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
-              />
             </div>
           </div>
 
@@ -116,7 +101,7 @@
                 name="cod_intervencao"
                 id="codigo_intervencao"
                 required
-                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:outline-indigo-500 sm:text-sm"
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
               >
                 <option class="bg-slate-900 text-white" value="">Selecione</option>
                 {% for motivo in motivos %}
@@ -124,9 +109,8 @@
                     class="bg-slate-900 text-white"
                     value="{{ motivo.pk }}"
                     {% if form.cod_intervencao.value == motivo.pk %}selected{% endif %}
-                    data-descricao="{{ motivo.descricao_motivo }}"
                   >
-                    {{ motivo.codigo_intervencao }}
+                    {{ motivo.codigo_intervencao }} - {{ motivo.descricao_motivo }}
                   </option>
                 {% endfor %}
               </select>
@@ -134,15 +118,14 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-200">Descrição do Motivo</label>
+            <label class="block text-sm font-medium text-gray-200">SSM</label>
             <div class="mt-2">
               <input
-                type="text"
-                name="descricao_motivo"
-                id="descricao_motivo"
-                placeholder="Descrição do motivo aparecerá aqui"
-                readonly
-                class="block w-full rounded-md bg-white/10 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
+                type="number"
+                name="ssm"
+                placeholder="Digite o número do SSM"
+                value="{{ form.ssm.value|default:'' }}"
+                class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 placeholder:text-gray-500 focus:outline-indigo-500 sm:text-sm"
               />
             </div>
           </div>
@@ -156,8 +139,7 @@
                 required
                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm"
               >
-                <option class="bg-slate-900 text-white" value="">Selecione</option>
-                <option class="bg-slate-900 text-white" value="B" {% if form.prioridade.value == "B" %}selected{% endif %}>Baixa</option>
+                <option class="bg-slate-900 text-white" value="B" {% if form.prioridade.value == "B" or not form.prioridade.value %}selected{% endif %}>Baixa</option>
                 <option class="bg-slate-900 text-white" value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Alta</option>
                 <option class="bg-slate-900 text-white" value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Crítica</option>
               </select>
