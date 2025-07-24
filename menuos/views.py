@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_GET
 
@@ -28,7 +29,7 @@ def menuos_view(request):
 
 
 #  Geração Automática do Número da Ordem de Serviço (OS)  
-
+@login_required
 def gerar_numero_os():
     """
     Gera um novo número de OS baseado no ano atual e na última OS cadastrada.
@@ -187,17 +188,7 @@ def cadastrar_motivo(request):
     return render(request, 'cadastrar_motivo.html', {'form': form})
 
 
-#  Função auxiliar (opcional) para renderizar menu]
-
-def menuos(request):
-    """
-    Renderiza o menu principal (fallback).
-    """
-    return render(request, 'menuos.html')
-
-
 # Busca via AJAX dados da OS e colaborador
-
 @require_GET
 def buscar_dados_os(request):
     """
@@ -225,7 +216,7 @@ def buscar_dados_os(request):
 
 
 # Início da OS (registro do início do trabalho)
-
+@login_required
 @require_http_methods(["GET", "POST"])
 def iniciar_os_view(request):
     """
@@ -281,7 +272,7 @@ def cadastrar_colaborador(request):
 
 
 # Lançamento/Apontamento de Ordens de Serviço Pelos Colaboradores
-
+@login_required
 def lancamento_os(request):
     """
     Renderiza a tela para lançamento/início da OS.
@@ -290,6 +281,13 @@ def lancamento_os(request):
 
 
 # Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
+@login_required
 def listar_horas(request):
     registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
     return render(request, 'menuos/listar_horas.html', {'registros': registros})
+
+
+# Logout do Usuário
+def sair(request):
+    logout(request)
+    return redirect('login')  # ou outra página

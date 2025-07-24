@@ -104,3 +104,6 @@ MESSAGE_TAGS = {
     constants.SUCCESS: 'bg-green-50 text-green-700',
     constants.ERROR: 'bg-red-50 text-red-700'
 }
+
+# Configurações de sessão
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
