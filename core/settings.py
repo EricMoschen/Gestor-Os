@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['gestor-os.onrender.com']  
+ALLOWED_HOSTS = ['gestor-os-qfy1.onrender.com']  
 
 # Aplicativos instalados
 INSTALLED_APPS = [
