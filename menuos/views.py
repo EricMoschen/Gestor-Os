@@ -4,6 +4,7 @@ from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
@@ -288,6 +289,6 @@ def listar_horas(request):
 
 
 # Logout do Usuário
-def sair(request):
+def logout_view(request):
     logout(request)
-    return redirect('login')  # ou outra página
+    return HttpResponse("Logout feito")

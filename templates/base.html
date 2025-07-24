@@ -18,6 +18,12 @@
     window.location.href = "{% url 'menuos' %}";
     };
 });
+
+    // Logout automático ao fechar a aba ou navegador
+    window.addEventListener('beforeunload', function () {
+            // Faz uma requisição para logout ao sair da página
+            navigator.sendBeacon("{% url 'logout' %}");
+        });
 </script>
 
 </body>
