@@ -314,4 +314,4 @@ def alterar_status_os(request, id):
     if novo_status in ['Em Aberto', 'Finalizada']:
         os_obj.status = novo_status
         os_obj.save()
-    return redirect('detalhes_os', id=os_obj.id) 
+    return redirect('detalhes_os', numero_os=os_obj.numero_os)
