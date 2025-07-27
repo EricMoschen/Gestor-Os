@@ -1,40 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="h-full bg-slate-900 text-white">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Gestor OS</title>
-        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+        <!-- Tailwind CSS via CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="icon" href="{% static 'favicon.ico' %}"
+            type="image/x-icon" />
+
+        <!-- Estilos e scripts adicionais -->
         {% block head %}{% endblock head %}
     </head>
-    <body>
-        {% block body %} {% endblock body %}
+    <body class="h-full min-h-screen antialiased">
 
+        <!-- Bloco principal de conteúdo -->
+        {% block body %}{% endblock body %}
+
+        <!-- Scripts globais -->
         <script>
-    // Redirecionamento ao Menu Principal ao clicar no botão Voltar do navegador
-    document.addEventListener('DOMContentLoaded', function() {
-    window.history.pushState(null, '', window.location.href);
-    window.onpopstate = function(event) {
-    window.location.href = "{% url 'menuos' %}";
-    };
-});
-// Controla se está navegando internamente
-    let navegandoInternamente = false;
+      // Redirecionamento ao Menu Principal ao clicar no botão Voltar do navegador
+      document.addEventListener('DOMContentLoaded', function () {
+        window.history.pushState(null, '', window.location.href);
+        window.onpopstate = function (event) {
+          window.location.href = "{% url 'menuos' %}";
+        };
+      });
 
-  // Detecta navegação interna (links clicados)
-    document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-    navegandoInternamente = true;
-    });
-});
+      // Controla se está navegando internamente
+      let navegandoInternamente = false;
+      document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navegandoInternamente = true;
+        });
+      });
 
-  // Executa logout automático ao fechar aba/janela (não em reload)
-    window.addEventListener('pagehide', function (event) {
-    if (!navegandoInternamente && document.visibilityState === 'hidden') {
-    navigator.sendBeacon("{% url 'logout' %}");
-    }
-});
-</script>
-
+      // Executa logout automático ao fechar aba/janela (não em reload)
+      window.addEventListener('pagehide', function (event) {
+        if (!navegandoInternamente && document.visibilityState === 'hidden') {
+          navigator.sendBeacon("{% url 'logout' %}");
+        }
+      });
+    </script>
     </body>
 </html>
