@@ -116,20 +116,30 @@ def os_sucesso(request, numero):
 @login_required
 def listar_os(request):
     """
-    Lista as OSs com filtros opcionais por ano e prioridade.
-    Exibe apenas OS com status 'Em Aberto'.
+    Lista as OSs com filtros opcionais por ano, prioridade, status e busca por campo.
     """
     ano = request.GET.get('ano')
     prioridade = request.GET.get('prioridade')
+    status = request.GET.get('status')
+    campo = request.GET.get('campo')  # nome do campo: 'numero_os', 'cc', etc.
+    busca = request.GET.get('busca')
 
-    # Filtra inicialmente apenas OS em aberto
-    os_list = AberturaOS.objects.filter(status='Em Aberto').order_by('-data_abertura')
+    os_list = AberturaOS.objects.all().order_by('-data_abertura')
+
+    if status:
+        os_list = os_list.filter(status=status)
+    else:
+        os_list = os_list.filter(status='Em Aberto')  # padrão
 
     if ano:
         os_list = os_list.filter(numero_os__endswith=f"-{ano[-2:]}")
 
     if prioridade:
         os_list = os_list.filter(prioridade=prioridade)
+
+    if campo and busca:
+        filtro = {f"{campo}__icontains": busca}
+        os_list = os_list.filter(**filtro)
 
     anos_disponiveis = sorted(set([
         os.numero_os[-2:] for os in AberturaOS.objects.filter(status='Em Aberto')
