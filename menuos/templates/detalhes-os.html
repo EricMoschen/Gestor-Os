@@ -1,56 +1,73 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<div class="min-h-screen bg-slate-900 text-white px-6 py-10">
-    <h1 class="text-3xl font-bold mb-6 text-center">Detalhes da OS #{{ os.numero_os }}</h1>
+<div
+    class="min-h-screen bg-slate-900 text-white px-6 py-10 flex flex-col max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center">Detalhes da OS #{{
+        os.numero_os }}</h1>
 
-    <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
-        <div class="mb-4">
-            <h2 class="text-xl font-semibold">Informações Gerais</h2>
-            <p><strong>Data de Abertura:</strong> {{ os.data_abertura|date:"d/m/Y H:i" }}</p>
-            <p><strong>Centro de Custo:</strong> {{ os.cc }}</p>
-            <p><strong>Prioridade:</strong> 
-                {% if os.prioridade == 'B' %}
-                    Baixa
-                {% elif os.prioridade == 'A' %}
-                    Alta
-                {% elif os.prioridade == 'C' %}
-                    Crítica
-                {% endif %}
-            </p>
-            <p><strong>Status Atual:</strong> {{ os.status }}</p>
-            <p><strong>Cliente:</strong> {{ os.cod_cliente }}</p>
-            <p><strong>SSM:</strong> {{ os.ssm }}</p>
-        </div>
+    <div class="bg-slate-800 p-8 rounded-lg shadow-lg space-y-8">
 
-        <div class="mb-4">
-            <h2 class="text-xl font-semibold">Descrição do Problema</h2>
-            <p>{{ os.descricao }}</p>
-        </div>
+        <section>
+            <h2
+                class="text-xl font-semibold mb-4 border-b border-slate-700 pb-2">Informações
+                Gerais</h2>
+            <ul class="space-y-1 text-gray-300">
+                <li><strong>Data de Abertura:</strong> {{
+                    os.data_abertura|date:"d/m/Y H:i" }}</li>
+                <li><strong>Centro de Custo:</strong> {{ os.cc }}</li>
+                <li><strong>Prioridade:</strong>
+                    {% if os.prioridade == 'B' %}
+                    <span class="text-green-400 font-semibold">Baixa</span>
+                    {% elif os.prioridade == 'A' %}
+                    <span class="text-yellow-400 font-semibold">Alta</span>
+                    {% elif os.prioridade == 'C' %}
+                    <span class="text-red-500 font-semibold">Crítica</span>
+                    {% endif %}
+                </li>
+                <li><strong>Status Atual:</strong> {{ os.status }}</li>
+                <li><strong>Cliente:</strong> {{ os.cod_cliente }}</li>
+                <li><strong>SSM:</strong> {{ os.ssm }}</li>
+            </ul>
+        </section>
 
-        <div class="mb-4">
-            <h2 class="text-xl font-semibold">Responsável</h2>
-            <p>{{ os.responsavel }}</p>
-        </div>
+        <section>
+            <h2
+                class="text-xl font-semibold mb-4 border-b border-slate-700 pb-2">Descrição
+                do Problema</h2>
+            <p class="text-gray-200 whitespace-pre-wrap">{{ os.descricao }}</p>
+        </section>
 
-        <!-- Formulário para alterar status -->
-        <div class="mt-6">
-            <h2 class="text-xl font-semibold mb-2">Alterar Status</h2>
-            <form method="POST" action="{% url 'alterar_status_os' os.id %}" class="flex items-center gap-4">
+        <section>
+            <h2
+                class="text-xl font-semibold mb-4 border-b border-slate-700 pb-2">Responsável</h2>
+            <p class="text-gray-200">{{ os.responsavel }}</p>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Alterar Status</h2>
+            <form method="POST" action="{% url 'alterar_status_os' os.id %}"
+                class="flex flex-col sm:flex-row items-center gap-4 max-w-md">
                 {% csrf_token %}
-                <select name="status" class="bg-slate-700 text-white px-4 py-2 rounded">
-                    <option value="Em Aberto" {% if os.status == 'Em Aberto' %}selected{% endif %}>Em Aberto</option>
-                    <option value="Finalizada" {% if os.status == 'Finalizada' %}selected{% endif %}>Finalizada</option>
+                <select name="status"
+                    class="bg-slate-700 text-white px-4 py-2 rounded w-full sm:w-auto">
+                    <option value="Em Aberto" {% if os.status == 'Em Aberto'
+                        %}selected{% endif %}>Em Aberto</option>
+                    <option value="Finalizada" {% if os.status == 'Finalizada'
+                        %}selected{% endif %}>Finalizada</option>
                 </select>
-                <button type="submit" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded w-full sm:w-auto">
                     Salvar
                 </button>
             </form>
-        </div>
+        </section>
+
     </div>
 
-    <div class="mt-6 text-center">
-        <a href="{% url 'listar_os' %}" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded">
+    <div class="mt-10 text-center">
+        <a href="{% url 'listar_os' %}"
+            class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded font-semibold transition">
             Voltar para a Lista
         </a>
     </div>
