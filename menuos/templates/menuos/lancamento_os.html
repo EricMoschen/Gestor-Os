@@ -2,68 +2,98 @@
 {% load static %}
 {% block body %}
 
-<div class="flex min-h-screen bg-slate-900">
-  <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-    <div class="mx-auto w-full max-w-sm lg:w-96">
+<div class="flex min-h-screen bg-slate-900 items-center justify-center px-6 py-12">
+  <div class="w-full max-w-md bg-slate-800 rounded-2xl shadow-lg p-8 text-center">
+    <img class="mx-auto h-20 w-auto mb-6" src="{% static 'logo.png' %}" alt="Sua Empresa" />
+    <h2 class="text-2xl font-bold text-white mb-2">Iniciar Ordem de Serviço</h2>
+    <p class="text-gray-400 mb-8">
+      Informe sua matrícula e o número da OS.
+    </p>
+
+    <form method="POST" id="form-iniciar-os" class="space-y-6 text-left">
+      {% csrf_token %}
+      <div id="msg_erro" class="hidden mb-4 text-red-500 text-center"></div>
+
       <div>
-        <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Sua Empresa" />
-        <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-100">Iniciar Ordem de Serviço</h2>
-        <p class="mt-2 text-sm text-gray-500">
-          Informe sua matrícula e o número da OS.
-        </p>
+        <label for="matricula" class="block text-sm font-medium text-gray-200 mb-1">Matrícula</label>
+        <input
+          type="text"
+          name="matricula"
+          id="matricula"
+          required
+          placeholder="Digite sua matrícula"
+          class="w-full rounded-md bg-white/10 px-3 py-2 text-white placeholder-gray-500 outline outline-1 outline-white/20 focus:outline-indigo-500 sm:text-sm"
+        />
       </div>
 
-      <div class="mt-8">
-        <form method="POST" class="space-y-6" id="form-iniciar-os">
-          {% csrf_token %}
-
-          <div id="msg_erro" class="hidden mb-4 text-red-500 text-center"></div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-200">Matrícula</label>
-            <input type="text" name="matricula" id="matricula" required class="mt-2 block w-full rounded-md bg-white/5 px-3 py-1.5 text-white placeholder:text-gray-500 outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm" placeholder="Digite sua matrícula" />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-200">Número da OS</label>
-            <input type="text" name="numero_os" id="numero_os" required class="mt-2 block w-full rounded-md bg-white/5 px-3 py-1.5 text-white placeholder:text-gray-500 outline outline-1 outline-white/10 focus:outline-indigo-500 sm:text-sm" placeholder="Digite o número da OS" />
-          </div>
-
-          <div>
-            <button type="button" id="btn_verificar" class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">
-              Verificar
-            </button>
-          </div>
-
-          <div id="colaborador_info" style="display:none;">
-            <label class="block text-sm font-medium text-gray-200">Nome do Colaborador</label>
-            <input type="text" name="nome_colaborador" id="nome_colaborador" readonly class="mt-2 block w-full rounded-md bg-white/10 px-3 py-1.5 text-white outline outline-1 outline-white/10 sm:text-sm" />
-          </div>
-
-          <div id="descricao_os_info" style="display:none;">
-            <label class="block text-sm font-medium text-gray-200">Descrição da OS</label>
-            <textarea name="descricao_os" id="descricao_os" readonly rows="4" class="mt-2 block w-full rounded-md bg-white/10 px-3 py-1.5 text-white outline outline-1 outline-white/10 sm:text-sm"></textarea>
-          </div>
-
-          <div id="botao_iniciar_container" style="display: none;">
-            <button type="submit" class="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500">
-              Iniciar OS
-            </button>
-          </div>
-        </form>
+      <div>
+        <label for="numero_os" class="block text-sm font-medium text-gray-200 mb-1">Número da OS</label>
+        <input
+          type="text"
+          name="numero_os"
+          id="numero_os"
+          required
+          placeholder="Digite o número da OS"
+          class="w-full rounded-md bg-white/10 px-3 py-2 text-white placeholder-gray-500 outline outline-1 outline-white/20 focus:outline-indigo-500 sm:text-sm"
+        />
       </div>
-    </div>
+
+      <div>
+        <button
+          type="button"
+          id="btn_verificar"
+          class="w-full rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold hover:bg-indigo-500 transition"
+        >
+          Verificar
+        </button>
+      </div>
+
+      <div id="colaborador_info" class="hidden">
+        <label for="nome_colaborador" class="block text-sm font-medium text-gray-200 mb-1">Nome do Colaborador</label>
+        <input
+          type="text"
+          name="nome_colaborador"
+          id="nome_colaborador"
+          readonly
+          class="w-full rounded-md bg-white/20 px-3 py-2 text-white outline outline-1 outline-white/20 sm:text-sm"
+        />
+      </div>
+
+      <div id="descricao_os_info" class="hidden">
+        <label for="descricao_os" class="block text-sm font-medium text-gray-200 mb-1 mt-4">Descrição da OS</label>
+        <textarea
+          name="descricao_os"
+          id="descricao_os"
+          rows="4"
+          readonly
+          class="w-full rounded-md bg-white/20 px-3 py-2 text-white outline outline-1 outline-white/20 sm:text-sm"
+        ></textarea>
+      </div>
+
+      <div id="botao_iniciar_container" class="hidden mt-6">
+        <button
+          type="submit"
+          class="w-full rounded-md bg-green-600 px-4 py-2 text-white font-semibold hover:bg-green-500 transition"
+        >
+          Iniciar OS
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
 <!-- Modal de Sucesso -->
-<div id="modal_sucesso" style="display:none; backdrop-filter: blur(6px);" class="fixed inset-0 bg-transparent bg-opacity-20 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-8 max-w-md text-left">
+<div
+  id="modal_sucesso"
+  style="display:none;"
+  class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <div class="bg-slate-100 rounded-lg p-8 max-w-md w-full text-left">
     <h2 class="text-xl font-bold mb-6 text-green-700 text-center">Hora iniciada com sucesso!</h2>
-    <div class="space-y-3 text-sm text-gray-800">
-      <p><strong>Número da OS:</strong><br><span id="modal_numero_os"></span></p>
-      <p><strong>Descrição da OS:</strong><br><span id="modal_descricao_os"></span></p>
-      <p><strong>Colaborador:</strong><br><span id="modal_nome_colaborador"></span> (<span id="modal_matricula_colaborador"></span>)</p>
+    <div class="space-y-3 text-gray-800 text-sm">
+      <p><strong>Número da OS:</strong><br /><span id="modal_numero_os"></span></p>
+      <p><strong>Descrição da OS:</strong><br /><span id="modal_descricao_os"></span></p>
+      <p><strong>Colaborador:</strong><br /><span id="modal_nome_colaborador"></span> (<span id="modal_matricula_colaborador"></span>)</p>
     </div>
     <p class="mt-6 text-center text-gray-600">Você será redirecionado em <span id="modal_timer">10</span> segundos.</p>
   </div>
@@ -101,33 +131,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch(`/menuos/buscar-dados-os/?matricula=${matricula}&numero_os=${numeroOs}`, {
+    fetch(`/menuos/buscar-dados-os/?matricula=${encodeURIComponent(matricula)}&numero_os=${encodeURIComponent(numeroOs)}`, {
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.valido) {
-        nomeColaboradorInput.value = data.nome_colaborador;
-        descricaoOsInput.value = data.descricao_os;
+      .then(response => response.json())
+      .then(data => {
+        if (data.valido) {
+          nomeColaboradorInput.value = data.nome_colaborador;
+          descricaoOsInput.value = data.descricao_os;
 
-        colaboradorInfo.style.display = "block";
-        descricaoOsInfo.style.display = "block";
-        botaoIniciar.style.display = "block";
-      } else {
-        msgErro.textContent = "Matrícula ou Número da OS inválidos ou inexistentes.";
+          colaboradorInfo.classList.remove("hidden");
+          descricaoOsInfo.classList.remove("hidden");
+          botaoIniciar.classList.remove("hidden");
+        } else {
+          msgErro.textContent = "Matrícula ou Número da OS inválidos ou inexistentes.";
+          msgErro.classList.remove("hidden");
+          colaboradorInfo.classList.add("hidden");
+          descricaoOsInfo.classList.add("hidden");
+          botaoIniciar.classList.add("hidden");
+          nomeColaboradorInput.value = "";
+          descricaoOsInput.value = "";
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao buscar dados:", error);
+        msgErro.textContent = "Erro na comunicação com o servidor.";
         msgErro.classList.remove("hidden");
-        colaboradorInfo.style.display = "none";
-        descricaoOsInfo.style.display = "none";
-        botaoIniciar.style.display = "none";
-        nomeColaboradorInput.value = "";
-        descricaoOsInput.value = "";
-      }
-    })
-    .catch(error => {
-      console.error("Erro ao buscar dados:", error);
-      msgErro.textContent = "Erro na comunicação com o servidor.";
-      msgErro.classList.remove("hidden");
-    });
+      });
   });
 
   document.getElementById("form-iniciar-os").addEventListener("submit", function (e) {
@@ -153,38 +183,38 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       body: JSON.stringify({ matricula, numero_os: numeroOs }),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.sucesso) {
-        document.querySelector("form#form-iniciar-os").style.display = "none";
-        msgErro.classList.add("hidden");
+      .then(response => response.json())
+      .then(data => {
+        if (data.sucesso) {
+          document.querySelector("form#form-iniciar-os").style.display = "none";
+          msgErro.classList.add("hidden");
 
-        modalNumOs.textContent = numeroOs;
-        modalDescOs.textContent = descricaoOs;
-        modalNomeColab.textContent = nomeColaborador;
-        modalMatriculaColab.textContent = matricula;
-        modal.style.display = "flex";
+          modalNumOs.textContent = numeroOs;
+          modalDescOs.textContent = descricaoOs;
+          modalNomeColab.textContent = nomeColaborador;
+          modalMatriculaColab.textContent = matricula;
+          modal.style.display = "flex";
 
-        let timer = 10;
-        modalTimer.textContent = timer;
-
-        const intervalo = setInterval(() => {
-          timer--;
+          let timer = 10;
           modalTimer.textContent = timer;
-          if (timer <= 0) {
-            clearInterval(intervalo);
-            window.location.href = "/menuos/iniciar-os/";
-          }
-        }, 1000);
-      } else {
-        msgErro.textContent = data.mensagem || "Erro ao iniciar a OS.";
+
+          const intervalo = setInterval(() => {
+            timer--;
+            modalTimer.textContent = timer;
+            if (timer <= 0) {
+              clearInterval(intervalo);
+              window.location.href = "/menuos/iniciar-os/";
+            }
+          }, 1000);
+        } else {
+          msgErro.textContent = data.mensagem || "Erro ao iniciar a OS.";
+          msgErro.classList.remove("hidden");
+        }
+      })
+      .catch(() => {
+        msgErro.textContent = "Erro na comunicação com o servidor.";
         msgErro.classList.remove("hidden");
-      }
-    })
-    .catch(() => {
-      msgErro.textContent = "Erro na comunicação com o servidor.";
-      msgErro.classList.remove("hidden");
-    });
+      });
   });
 });
 </script>

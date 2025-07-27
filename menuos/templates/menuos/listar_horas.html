@@ -1,41 +1,41 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
-  <div class="max-w-3xl w-full bg-gray-800 rounded-lg p-8 shadow-lg">
-    <h1 class="text-3xl font-bold mb-6">Listar Horas</h1>
+<div class="min-h-screen flex items-center justify-center bg-slate-900 text-white p-6">
+  <div class="max-w-4xl w-full bg-slate-800 rounded-lg p-8 shadow-lg">
+    <h1 class="text-3xl font-bold mb-8 text-center">Listar Horas</h1>
 
     {% if registros %}
-      <table class="w-full text-left border border-gray-700">
+      <table class="w-full table-auto border-collapse border border-slate-700">
         <thead>
-          <tr class="bg-gray-700">
-            <th class="p-2 border border-gray-600">Matrícula</th>
-            <th class="p-2 border border-gray-600">OS</th>
-            <th class="p-2 border border-gray-600">Início</th>
-            <th class="p-2 border border-gray-600">Fim</th>
-            <th class="p-2 border border-gray-600">Tipo de Dia</th>
+          <tr class="bg-slate-700 text-slate-100">
+            <th class="p-3 border border-slate-600">Matrícula</th>
+            <th class="p-3 border border-slate-600">OS</th>
+            <th class="p-3 border border-slate-600">Início</th>
+            <th class="p-3 border border-slate-600">Fim</th>
+            <th class="p-3 border border-slate-600">Tipo de Dia</th>
           </tr>
         </thead>
         <tbody>
           {% for r in registros %}
-          <tr class="hover:bg-gray-600">
-            <td class="p-2 border border-gray-700">{{ r.matricula }}</td>
-            <td class="p-2 border border-gray-700">{{ r.numero_os }}</td>
-            <td class="p-2 border border-gray-700">{{ r.hora_inicio|date:"d/m/Y H:i" }}</td>
-            <td class="p-2 border border-gray-700">
+          <tr class="hover:bg-slate-700">
+            <td class="p-3 border border-slate-700">{{ r.matricula }}</td>
+            <td class="p-3 border border-slate-700">{{ r.numero_os }}</td>
+            <td class="p-3 border border-slate-700">{{ r.hora_inicio|date:"d/m/Y H:i" }}</td>
+            <td class="p-3 border border-slate-700">
               {% if r.hora_fim %}
                 {{ r.hora_fim|date:"d/m/Y H:i" }}
               {% else %}
-                <span class="text-yellow-400">Em aberto</span>
+                <span class="text-yellow-400 font-semibold">Em aberto</span>
               {% endif %}
             </td>
-            <td class="p-2 border border-gray-700">{{ r.get_codigo_dia_display }}</td>
+            <td class="p-3 border border-slate-700">{{ r.get_codigo_dia_display }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <p>Nenhum registro encontrado.</p>
+      <p class="text-center text-gray-400 mt-6">Nenhum registro encontrado.</p>
     {% endif %}
   </div>
 </div>
