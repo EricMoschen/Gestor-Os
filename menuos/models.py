@@ -46,15 +46,12 @@ class AberturaOS(models.Model):
     """
     numero_os = models.CharField(max_length=20, unique=True)
     descricao = models.TextField()
-    cc = models.CharField("Centro de Custo", max_length=20)  # Centro de custo relacionado como texto (código)
+    cc = models.CharField("Centro de Custo", max_length=20)
 
-    # Relações com cliente e motivo de intervenção
     cod_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     cod_intervencao = models.ForeignKey(MotivoIntervencao, on_delete=models.CASCADE)
     ssm = models.PositiveIntegerField("SSM", null=True, blank=True)
-    
-    
-    # Definição de prioridade com escolhas fixas
+
     PRIORIDADES = [
         ('B', 'Baixa'),
         ('A', 'Alta'),
@@ -62,10 +59,16 @@ class AberturaOS(models.Model):
     ]
     prioridade = models.CharField(max_length=10, choices=PRIORIDADES)
 
-    data_abertura = models.DateTimeField(auto_now_add=True)  # Data e hora da criação da OS
+    STATUS_CHOICES = [
+        ('Em Aberto', 'Em Aberto'),
+        ('Finalizada', 'Finalizada'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Em Aberto')
+
+    data_abertura = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"OS {self.numero_os} - Prioridade: {self.get_prioridade_display()}"
+        return f"OS {self.numero_os} - Prioridade: {self.get_prioridade_display()} - Status: {self.status}"
 
 
 class Colaborador(models.Model):

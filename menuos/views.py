@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_GET
+from django.views.decorators.http import require_POST
 
 from .models import (
     AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
@@ -16,7 +17,6 @@ from .models import (
 from .forms import (
     AberturaOSForm, ClienteForm, MotivoIntervencaoForm, ColaboradorForm, CentroDeCustoForm
 )
-
 
 
 # Tela Principal (Menu)
@@ -117,11 +117,13 @@ def os_sucesso(request, numero):
 def listar_os(request):
     """
     Lista as OSs com filtros opcionais por ano e prioridade.
+    Exibe apenas OS com status 'Em Aberto'.
     """
     ano = request.GET.get('ano')
     prioridade = request.GET.get('prioridade')
 
-    os_list = AberturaOS.objects.all().order_by('-data_abertura')
+    # Filtra inicialmente apenas OS em aberto
+    os_list = AberturaOS.objects.filter(status='Em Aberto').order_by('-data_abertura')
 
     if ano:
         os_list = os_list.filter(numero_os__endswith=f"-{ano[-2:]}")
@@ -129,7 +131,9 @@ def listar_os(request):
     if prioridade:
         os_list = os_list.filter(prioridade=prioridade)
 
-    anos_disponiveis = sorted(set([os.numero_os[-2:] for os in AberturaOS.objects.all()]), reverse=True)
+    anos_disponiveis = sorted(set([
+        os.numero_os[-2:] for os in AberturaOS.objects.filter(status='Em Aberto')
+    ]), reverse=True)
 
     return render(request, 'listar-os.html', {
         'os_list': os_list,
@@ -292,3 +296,14 @@ def listar_horas(request):
 def logout_view(request):
     logout(request)
     return HttpResponse("Logout automático feito.")
+
+
+# Alteração de Status da OS
+@require_POST
+def alterar_status_os(request, id):
+    os_obj = get_object_or_404(AberturaOS, id=id)
+    novo_status = request.POST.get('status')
+    if novo_status in ['Em Aberto', 'Finalizada']:
+        os_obj.status = novo_status
+        os_obj.save()
+    return redirect('detalhes_os', id=os_obj.id) 

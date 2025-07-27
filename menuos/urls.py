@@ -27,6 +27,10 @@ urlpatterns = [
     path('lancamento-os/', views.lancamento_os, name='lancamento_os'),  # Tela para lançamento de OS (início do trabalho)
     path('listar-horas/', views.listar_horas, name='listar_horas'),  # Tela para listar horas lançadas pelos colaboradores
     
+    
+    # Rotas para alterar status de OS
+    path('os/<int:id>/alterar-status/', views.alterar_status_os, name='alterar_status_os'),
+    
     # Logout do usuário
     path('logout/', views.logout_view, name='logout'),
 ]

@@ -18,8 +18,9 @@
                     Crítica
                 {% endif %}
             </p>
+            <p><strong>Status Atual:</strong> {{ os.status }}</p>
             <p><strong>Cliente:</strong> {{ os.cod_cliente }}</p>
-            <p><strong>SSM:</strong> {{ os.ssm }}</p>  <!-- Campo SSM adicionado -->
+            <p><strong>SSM:</strong> {{ os.ssm }}</p>
         </div>
 
         <div class="mb-4">
@@ -30,6 +31,21 @@
         <div class="mb-4">
             <h2 class="text-xl font-semibold">Responsável</h2>
             <p>{{ os.responsavel }}</p>
+        </div>
+
+        <!-- Formulário para alterar status -->
+        <div class="mt-6">
+            <h2 class="text-xl font-semibold mb-2">Alterar Status</h2>
+            <form method="POST" action="{% url 'alterar_status_os' os.id %}" class="flex items-center gap-4">
+                {% csrf_token %}
+                <select name="status" class="bg-slate-700 text-white px-4 py-2 rounded">
+                    <option value="Em Aberto" {% if os.status == 'Em Aberto' %}selected{% endif %}>Em Aberto</option>
+                    <option value="Finalizada" {% if os.status == 'Finalizada' %}selected{% endif %}>Finalizada</option>
+                </select>
+                <button type="submit" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded">
+                    Salvar
+                </button>
+            </form>
         </div>
     </div>
 
