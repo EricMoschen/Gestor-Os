@@ -76,7 +76,7 @@ class CentroDeCustoForm(forms.ModelForm):
     """
     class Meta:
         model = CentroDeCusto
-        fields = ['codigo_custo', 'descricao_custo']
+        fields = ['codigo_custo', 'descricao_custo', 'tag']  # adiciona 'tag' aqui
         widgets = {
             'codigo_custo': forms.TextInput(attrs={
                 'class': 'form-input',
@@ -86,8 +86,12 @@ class CentroDeCustoForm(forms.ModelForm):
                 'class': 'form-input',
                 'placeholder': 'Descrição do Centro de Custo'
             }),
+            'tag': forms.TextInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Tag (opcional)',
+                'maxlength': '50',
+            }),
         }
-
 
 
 class ColaboradorForm(forms.ModelForm):

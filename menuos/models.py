@@ -9,7 +9,8 @@ class CentroDeCusto(models.Model):
     """
     codigo_custo = models.CharField(max_length=10, unique=True)
     descricao_custo = models.CharField(max_length=255)
-
+    tag = models.CharField(max_length=50, blank=True, null=True, help_text="Tag opcional para o centro de custo")
+    
     def __str__(self):
         return f"{self.codigo_custo} - {self.descricao_custo}"
 
