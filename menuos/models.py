@@ -39,17 +39,12 @@ class MotivoIntervencao(models.Model):
 
 
 class AberturaOS(models.Model):
-    """
-    Modelo principal de Ordem de Serviço (OS).
-    Contém informações da OS como número único, descrição, centro de custo, cliente e motivo.
-    Define níveis de prioridade e registra a data de abertura automaticamente.
-    """
     numero_os = models.CharField(max_length=20, unique=True)
     descricao = models.TextField()
     cc = models.CharField("Centro de Custo", max_length=20)
 
     cod_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    cod_intervencao = models.ForeignKey(MotivoIntervencao, on_delete=models.CASCADE)
+    cod_intervencao = models.ForeignKey('MotivoIntervencao', on_delete=models.CASCADE)  # ajuste se necessário
     ssm = models.PositiveIntegerField("SSM", null=True, blank=True)
 
     PRIORIDADES = [
@@ -69,7 +64,6 @@ class AberturaOS(models.Model):
 
     def __str__(self):
         return f"OS {self.numero_os} - Prioridade: {self.get_prioridade_display()} - Status: {self.status}"
-
 
 class Colaborador(models.Model):
     """

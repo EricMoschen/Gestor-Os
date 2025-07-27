@@ -115,21 +115,20 @@ def os_sucesso(request, numero):
 
 @login_required
 def listar_os(request):
-    """
-    Lista as OSs com filtros opcionais por ano, prioridade, status e busca por campo.
-    """
     ano = request.GET.get('ano')
     prioridade = request.GET.get('prioridade')
     status = request.GET.get('status')
-    campo = request.GET.get('campo')  # nome do campo: 'numero_os', 'cc', etc.
+    campo = request.GET.get('campo')
     busca = request.GET.get('busca')
+
+    CAMPO_PERMITIDOS = ['numero_os', 'cc', 'cod_cliente__nome_cliente']
 
     os_list = AberturaOS.objects.all().order_by('-data_abertura')
 
     if status:
         os_list = os_list.filter(status=status)
     else:
-        os_list = os_list.filter(status='Em Aberto')  # padrão
+        os_list = os_list.filter(status='Em Aberto')
 
     if ano:
         os_list = os_list.filter(numero_os__endswith=f"-{ano[-2:]}")
@@ -137,12 +136,12 @@ def listar_os(request):
     if prioridade:
         os_list = os_list.filter(prioridade=prioridade)
 
-    if campo and busca:
+    if campo in CAMPO_PERMITIDOS and busca:
         filtro = {f"{campo}__icontains": busca}
         os_list = os_list.filter(**filtro)
 
     anos_disponiveis = sorted(set([
-        os.numero_os[-2:] for os in AberturaOS.objects.filter(status='Em Aberto')
+        os.numero_os[-2:] for os in AberturaOS.objects.all()
     ]), reverse=True)
 
     return render(request, 'listar-os.html', {
@@ -150,6 +149,9 @@ def listar_os(request):
         'anos_disponiveis': anos_disponiveis,
         'ano_selecionado': ano,
         'prioridade_selecionada': prioridade,
+        'status_selecionado': status,
+        'campo_selecionado': campo,
+        'busca': busca,
     })
 
 
@@ -157,12 +159,8 @@ def listar_os(request):
 
 @login_required
 def detalhes_os(request, numero_os):
-    """
-    Mostra detalhes da OS identificada pelo número.
-    """
     os = get_object_or_404(AberturaOS, numero_os=numero_os)
     return render(request, 'detalhes-os.html', {'os': os})
-
 
 # Cadastro de Clientes
 

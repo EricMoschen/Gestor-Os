@@ -6,24 +6,24 @@
     <div>
         <label for="campo">Filtrar por:</label>
         <select name="campo" id="campo" class="bg-slate-700 px-3 py-2 rounded">
-            <option value="numero_os" {% if request.GET.campo == 'numero_os' %}selected{% endif %}>Nº OS</option>
-            <option value="cc" {% if request.GET.campo == 'cc' %}selected{% endif %}>Centro de Custo</option>
-            <option value="cod_cliente__nome" {% if request.GET.campo == 'cod_cliente__nome' %}selected{% endif %}>Cliente</option>
+            <option value="numero_os" {% if campo_selecionado == 'numero_os' %}selected{% endif %}>Nº OS</option>
+            <option value="cc" {% if campo_selecionado == 'cc' %}selected{% endif %}>Centro de Custo</option>
+            <option value="cod_cliente__nome_cliente" {% if campo_selecionado == 'cod_cliente__nome_cliente' %}selected{% endif %}>Cliente</option>
         </select>
     </div>
 
     <div>
         <label for="busca">Buscar:</label>
-        <input type="text" name="busca" id="busca" value="{{ request.GET.busca }}" placeholder="Digite o termo"
+        <input type="text" name="busca" id="busca" value="{{ busca }}" placeholder="Digite o termo"
                class="bg-slate-700 px-3 py-2 rounded text-white">
     </div>
 
     <div>
         <label for="status">Status:</label>
         <select name="status" id="status" class="bg-slate-700 px-3 py-2 rounded">
-            <option value="">Todos</option>
-            <option value="Em Aberto" {% if request.GET.status == 'Em Aberto' %}selected{% endif %}>Em Aberto</option>
-            <option value="Finalizada" {% if request.GET.status == 'Finalizada' %}selected{% endif %}>Finalizada</option>
+            <option value="" {% if not status_selecionado %}selected{% endif %}>Todos</option>
+            <option value="Em Aberto" {% if status_selecionado == 'Em Aberto' %}selected{% endif %}>Em Aberto</option>
+            <option value="Finalizada" {% if status_selecionado == 'Finalizada' %}selected{% endif %}>Finalizada</option>
         </select>
     </div>
 
@@ -31,3 +31,47 @@
         Buscar
     </button>
 </form>
+
+<!-- Tabela -->
+<div class="overflow-auto bg-slate-800 rounded-lg shadow">
+    <table class="min-w-full table-auto text-left text-sm">
+        <thead class="bg-slate-700 text-gray-300">
+            <tr>
+                <th class="px-6 py-3">Nº OS</th>
+                <th class="px-6 py-3">Data</th>
+                <th class="px-6 py-3">Centro de Custo</th>
+                <th class="px-6 py-3">Prioridade</th>
+                <th class="px-6 py-3">Cliente</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-100">
+            {% for os in os_list %}
+                <tr class="border-b border-slate-700 hover:bg-slate-600">
+                    <td class="px-6 py-3 font-mono">
+                        <a href="{% url 'detalhes_os' os.numero_os %}" class="text-indigo-400 hover:underline">
+                            {{ os.numero_os }}
+                        </a>
+                    </td>
+                    <td class="px-6 py-3">{{ os.data_abertura|date:"d/m/Y H:i" }}</td>
+                    <td class="px-6 py-3">{{ os.cc }}</td>
+                    <td class="px-6 py-3">
+                        {% if os.prioridade == 'B' %}
+                            <span class="bg-green-500 px-2 py-1 rounded text-white">Baixa</span>
+                        {% elif os.prioridade == 'A' %}
+                            <span class="bg-yellow-500 px-2 py-1 rounded text-white">Alta</span>
+                        {% elif os.prioridade == 'C' %}
+                            <span class="bg-red-600 px-2 py-1 rounded text-white">Crítica</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3">{{ os.cod_cliente }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-6 text-gray-400">Nenhuma OS encontrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
