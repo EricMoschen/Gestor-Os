@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['gestor-os-qfy1.onrender.com']  
 
