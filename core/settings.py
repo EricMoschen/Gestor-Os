@@ -105,6 +105,7 @@ MESSAGE_TAGS = {
 
 # Sessão expira ao fechar navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 120  # tempo em segundos
 
 # Segurança (produção)
 SESSION_COOKIE_SECURE = True
