@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants
+
 load_dotenv()
 
 # Caminho base do projeto
@@ -11,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['gestor-os-qfy1.onrender.com']  
+ALLOWED_HOSTS = ['gestor-os-qfy1.onrender.com']  # Substitua pelo seu domínio no Render
 
 # Aplicativos instalados
 INSTALLED_APPS = [
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve arquivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,9 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-# Banco de dados - PostgreSQL via dj_database_url
+# Banco de dados
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3'  # Usado caso DATABASE_URL não esteja definida
@@ -84,13 +84,11 @@ USE_TZ = True
 
 # Arquivos estáticos
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
-# Diretório para arquivos estáticos coletados
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Configuração para WhiteNoise (servir arquivos estáticos)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Campo padrão para chaves primárias
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -105,9 +103,11 @@ MESSAGE_TAGS = {
     constants.ERROR: 'bg-red-50 text-red-700'
 }
 
-# Configurações de sessão
+# Sessão expira ao fechar navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-# Segurança adicional para produção
+# Segurança (produção)
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True

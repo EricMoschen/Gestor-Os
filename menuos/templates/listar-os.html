@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block body %}
 
-<!-- Filtro -->
-<form method="GET" class="mb-6 flex flex-wrap items-center gap-4 text-sm text-white">
+<!-- Filtros -->
+<form method="GET" class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-6 text-sm text-white">
   <div>
-    <label for="campo" class="block mb-1 font-semibold">Filtrar por:</label>
-    <select name="campo" id="campo" class="bg-slate-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    <label for="campo" class="block mb-1 font-semibold">Filtrar por campo</label>
+    <select name="campo" id="campo"
+            class="w-full bg-slate-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
       <option value="numero_os" {% if campo_selecionado == 'numero_os' %}selected{% endif %}>Nº OS</option>
       <option value="cc" {% if campo_selecionado == 'cc' %}selected{% endif %}>Centro de Custo</option>
       <option value="cod_cliente__nome_cliente" {% if campo_selecionado == 'cod_cliente__nome_cliente' %}selected{% endif %}>Cliente</option>
@@ -13,24 +14,27 @@
   </div>
 
   <div>
-    <label for="busca" class="block mb-1 font-semibold">Buscar:</label>
+    <label for="busca" class="block mb-1 font-semibold">Buscar termo</label>
     <input type="text" name="busca" id="busca" value="{{ busca|default:'' }}" placeholder="Digite o termo"
-           class="bg-slate-700 px-3 py-2 rounded text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+           class="w-full bg-slate-700 px-3 py-2 rounded text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
   </div>
 
   <div>
-    <label for="status" class="block mb-1 font-semibold">Status:</label>
-    <select name="status" id="status" class="bg-slate-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    <label for="status" class="block mb-1 font-semibold">Status da OS</label>
+    <select name="status" id="status"
+            class="w-full bg-slate-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
       <option value="" {% if not status_selecionado %}selected{% endif %}>Todos</option>
       <option value="Em Aberto" {% if status_selecionado == 'Em Aberto' %}selected{% endif %}>Em Aberto</option>
       <option value="Finalizada" {% if status_selecionado == 'Finalizada' %}selected{% endif %}>Finalizada</option>
     </select>
   </div>
 
-  <button type="submit"
-          class="self-end bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded font-semibold transition">
-    Buscar
-  </button>
+  <div class="flex items-end">
+    <button type="submit"
+            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded font-semibold transition">
+      Buscar
+    </button>
+  </div>
 </form>
 
 <!-- Tabela -->
