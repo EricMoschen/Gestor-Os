@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-fallback-para-dev')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['gestor-os-qfy1.onrender.com']  # Substitua pelo seu domínio no Render
 
