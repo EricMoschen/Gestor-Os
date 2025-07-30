@@ -126,3 +126,19 @@ class RegistroInicioOS(models.Model):
 
     def __str__(self):
         return f"{self.matricula} - OS {self.numero_os}"
+    
+
+
+    #  Permissões de acesso
+class OrdemServico(models.Model):
+    class Meta:
+        permissions = [
+            ("abrir_os", "Pode abrir nova OS"),
+            ("listar_os", "Pode listar OSs"),
+            ("cadastrar_cliente", "Pode cadastrar cliente"),
+            ("cadastrar_motivo", "Pode cadastrar motivo"),
+            ("cadastrar_colaborador", "Pode cadastrar colaborador"),
+            ("cadastrar_centro_custo", "Pode cadastrar centro de custos"),
+            ("lancar_os", "Pode lançar OS"),
+            ("listar_horas", "Pode listar horas"),
+        ]

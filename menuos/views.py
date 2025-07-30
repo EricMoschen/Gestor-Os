@@ -10,6 +10,7 @@ from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import permission_required
 
 from .models import (
     AberturaOS, Cliente, MotivoIntervencao, CentroDeCusto, Colaborador, RegistroInicioOS
@@ -55,6 +56,7 @@ def gerar_numero_os():
 # Criação da Ordem de Serviço (OS)
 
 @login_required
+@permission_required('menuos.abrir_os', raise_exception=True)
 def criar_os(request):
     """
     Cria uma nova OS. 
@@ -85,6 +87,7 @@ def criar_os(request):
 # Cadastro de Centro de Custo
 
 @login_required
+@permission_required('menuos.cadastrar_centro_custo', raise_exception=True)
 def cadastrar_centro_de_custo(request):
     """
     View para cadastro de Centros de Custo.
@@ -114,6 +117,7 @@ def os_sucesso(request, numero):
 # Listagem das Ordens de Serviço
 
 @login_required
+@permission_required('menuos.listar_os', raise_exception=True)
 def listar_os(request):
     ano = request.GET.get('ano')
     prioridade = request.GET.get('prioridade')
@@ -165,6 +169,7 @@ def detalhes_os(request, numero_os):
 # Cadastro de Clientes
 
 @login_required
+@permission_required('menuos.cadastrar_cliente', raise_exception=True)
 def cadastrar_cliente(request):
     """
     Formulário para cadastro de cliente.
@@ -183,7 +188,8 @@ def cadastrar_cliente(request):
 
 # Cadastro de Motivos de Intervenção
 
-@login_required
+@login_required 
+@permission_required('menuos.cadastrar_motivo', raise_exception=True)
 def cadastrar_motivo(request):
     """
     Formulário para cadastro de motivos de intervenção.
@@ -267,6 +273,7 @@ def iniciar_os_view(request):
 # Cadastro de Colaboradores
 
 @login_required
+@permission_required('menuos.cadastrar_colaborador', raise_exception=True)
 def cadastrar_colaborador(request):
     """
     Formulário para cadastro de colaboradores.
@@ -285,6 +292,7 @@ def cadastrar_colaborador(request):
 
 # Lançamento/Apontamento de Ordens de Serviço Pelos Colaboradores
 @login_required
+@permission_required('menuos.lancar_os', raise_exception=True)
 def lancamento_os(request):
     """
     Renderiza a tela para lançamento/início da OS.
@@ -294,6 +302,7 @@ def lancamento_os(request):
 
 # Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
 @login_required
+@permission_required('menuos.listar_horas', raise_exception=True)
 def listar_horas(request):
     registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
     return render(request, 'menuos/listar_horas.html', {'registros': registros})
