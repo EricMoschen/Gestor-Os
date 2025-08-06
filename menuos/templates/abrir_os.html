@@ -118,16 +118,19 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-200">Prioridade</label>
+        <label class="block text-sm font-medium text-gray-200">Situação do Equipamento</label>
         <select
           name="prioridade"
           id="prioridade"
           required
           class="mt-1 block w-full rounded-md bg-white/5 px-3 py-2 text-white border border-white/10 focus:ring-2 focus:ring-indigo-500 sm:text-sm"
         >
-          <option class="bg-slate-900 text-white" value="B" {% if form.prioridade.value == "B" or not form.prioridade.value %}selected{% endif %}>Baixa</option>
-          <option class="bg-slate-900 text-white" value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Alta</option>
-          <option class="bg-slate-900 text-white" value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Crítica</option>
+          <option class="bg-slate-900 text-white" value="B" {% if form.prioridade.value == "B" or not form.prioridade.value %}selected{% endif %}>Máquina Parada</option>
+          <option class="bg-slate-900 text-white" value="A" {% if form.prioridade.value == "A" %}selected{% endif %}>Operando Com Defeito</option>
+          <option class="bg-slate-900 text-white" value="C" {% if form.prioridade.value == "C" %}selected{% endif %}>Operando Programada</option>
+          <option class="bg-slate-900 text-white" value="D" {% if form.prioridade.value == "D" %}selected{% endif %}>Máquina Parada Melhoria</option>
+          <option class="bg-slate-900 text-white" value="E" {% if form.prioridade.value == "E" %}selected{% endif %}>Operando Melhoria</option>
+          <option class="bg-slate-900 text-white" value="F" {% if form.prioridade.value == "F" %}selected{% endif %}>Outros</option>
         </select>
       </div>
 
