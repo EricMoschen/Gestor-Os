@@ -55,7 +55,7 @@ class AberturaOS(models.Model):
         ('OperandoMelhoria', 'Operando Melhoria'),
         ('Outros','Outros'),
     ]
-    prioridade = models.CharField(max_length=10, choices=PRIORIDADES)
+    prioridade = models.CharField(max_length=100, choices=PRIORIDADES)
 
     STATUS_CHOICES = [
         ('Em Aberto', 'Em Aberto'),
