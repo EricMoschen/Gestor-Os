@@ -236,7 +236,7 @@ def buscar_dados_os(request):
 # Início da OS (registro do início do trabalho)
 @login_required
 @require_http_methods(["GET", "POST"])
-@permission_required('menuos.menuos/iniciar_os', raise_exception=True)
+@permission_required('menuos.iniciar_os', raise_exception=True)
 
 def iniciar_os_view(request):
     """
