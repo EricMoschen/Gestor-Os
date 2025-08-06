@@ -65,7 +65,7 @@
             </a>
             {% endif %}
 
-            {% if perms.menuos.add_lancamentoos %}
+            {% if perms.menuos.menuos.add_lancamentoos %}
             <a href="{% url 'lancamento_os' %}" class="group bg-pink-600 hover:bg-pink-500 rounded-2xl p-6 flex flex-col items-center shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-400" role="button" tabindex="0" aria-label="Lançamento de OS">
                 <svg class="w-14 h-14 mb-4 text-white group-hover:text-pink-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M9 17v-6h13"/>
