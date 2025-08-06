@@ -294,7 +294,7 @@ def cadastrar_colaborador(request):
 
 # Lançamento/Apontamento de Ordens de Serviço Pelos Colaboradores
 @login_required
-@permission_required('menuos.lancar_os', raise_exception=True)
+@permission_required('menuos.lancamento_os', raise_exception=True)
 def lancamento_os(request):
     """
     Renderiza a tela para lançamento/início da OS.
