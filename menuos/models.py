@@ -48,9 +48,12 @@ class AberturaOS(models.Model):
     ssm = models.PositiveIntegerField("SSM", null=True, blank=True)
 
     PRIORIDADES = [
-        ('B', 'Baixa'),
-        ('A', 'Alta'),
-        ('C', 'Crítica'),
+        ('MaquinaParada', 'Máquina Parada')
+        ('OperandoDefeito', 'Operando com Defeito'),
+        ('OperandoProgramada', 'Operando Programada'),
+        ('OperandoParadaMelhoria', 'Operando Parada Melhoria'),
+        ('OperandoMelhoria', 'Operando Melhoria'),
+        ('Outros','Outros'),
     ]
     prioridade = models.CharField(max_length=10, choices=PRIORIDADES)
 
