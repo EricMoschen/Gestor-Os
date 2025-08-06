@@ -138,7 +138,8 @@ class OrdemServico(models.Model):
             ("cadastrar_cliente", "Pode cadastrar cliente"),
             ("cadastrar_motivo", "Pode cadastrar motivo"),
             ("cadastrar_colaborador", "Pode cadastrar colaborador"),
-            ("cadastrar_centro_custo", "Pode cadastrar centro de custos"),    
+            ("cadastrar_centro_custo", "Pode cadastrar centro de custos"),   
+            ("iniciar_os", "Pode Iniciar OS"),
             ("lancamento_os", "Pode lançar OS"),
             ("listar_horas", "Pode listar horas"),
         ]
