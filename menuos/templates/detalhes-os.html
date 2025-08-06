@@ -12,17 +12,7 @@
             <ul class="space-y-1 text-gray-300">
                 <li><strong>Data de Abertura:</strong> {{ os.data_abertura|date:"d/m/Y H:i" }}</li>
                 <li><strong>Centro de Custo:</strong> {{ os.cc }}</li>
-                <li><strong>Prioridade:</strong>
-                    {% if os.prioridade == 'B' %}
-                        <span class="text-green-400 font-semibold">Baixa</span>
-                    {% elif os.prioridade == 'A' %}
-                        <span class="text-yellow-400 font-semibold">Alta</span>
-                    {% elif os.prioridade == 'C' %}
-                        <span class="text-red-500 font-semibold">Crítica</span>
-                    {% else %}
-                        <span>-</span>
-                    {% endif %}
-                </li>
+                <li><strong>Situação do Equipamento:</strong> {{os.prioridade}} </li>
                 <li><strong>Status Atual:</strong> {{ os.status }}</li>
                 <li><strong>Cliente:</strong> {{ os.cod_cliente }}</li>
                 <li><strong>SSM:</strong> {{ os.ssm }}</li>
