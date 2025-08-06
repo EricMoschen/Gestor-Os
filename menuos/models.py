@@ -48,7 +48,7 @@ class AberturaOS(models.Model):
     ssm = models.PositiveIntegerField("SSM", null=True, blank=True)
 
     PRIORIDADES = [
-        ('MaquinaParada', 'Máquina Parada')
+        ('MaquinaParada', 'Máquina Parada'),
         ('OperandoDefeito', 'Operando com Defeito'),
         ('OperandoProgramada', 'Operando Programada'),
         ('OperandoParadaMelhoria', 'Operando Parada Melhoria'),
