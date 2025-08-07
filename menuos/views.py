@@ -314,7 +314,7 @@ def listar_horas(request):
 @require_GET
 def logout_view(request):
     logout(request)
-    return HttpResponse("Logout automático feito.")
+    return redirect('login')
 
 
 # Alteração de Status da OS
