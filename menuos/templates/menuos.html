@@ -2,16 +2,6 @@
 {% load static %}
 
 {% block body %}
-     <!-- Botão Voltar/Logout-->
-     {% block top_right_button %}
-        <a href="{% url 'logout' %}" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white bg-slate-800 px-3 py-1 rounded transition duration-200">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1"/>
-            </svg>
-            Logout
-        </a>
-     {% endblock %}
-
 
 <div class="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-6xl mx-auto">
