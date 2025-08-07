@@ -12,7 +12,7 @@
             <ul class="space-y-1 text-gray-300">
                 <li><strong>Data de Abertura:</strong> {{ os.data_abertura|date:"d/m/Y H:i" }}</li>
                 <li><strong>Centro de Custo:</strong> {{ os.cc }}</li>
-                <li><strong>Situação do Equipamento:</strong> {{ os.prioridade }}</li>
+                <li><strong>Situação do Equipamento:</strong> {{ os.get_prioridade_display }}</li>
                 <li><strong>Status Atual:</strong> {{ os.status }}</li>
                 <li><strong>Cliente:</strong> {{ os.cod_cliente }}</li>
                 <li><strong>SSM:</strong> {{ os.ssm }}</li>

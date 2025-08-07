@@ -59,15 +59,7 @@
         </td>
         <td class="px-6 py-3">{{ os.data_abertura|date:"d/m/Y H:i" }}</td>
         <td class="px-6 py-3">{{ os.cc }}</td>
-        <td class="px-6 py-3">
-          {% if os.prioridade == 'B' %}
-            <span class="bg-green-600 px-3 py-1 rounded-full text-white font-semibold">Baixa</span>
-          {% elif os.prioridade == 'A' %}
-            <span class="bg-yellow-500 px-3 py-1 rounded-full text-white font-semibold">Alta</span>
-          {% elif os.prioridade == 'C' %}
-            <span class="bg-red-600 px-3 py-1 rounded-full text-white font-semibold">Crítica</span>
-          {% endif %}
-        </td>
+        <td class="px-6 py-3">{{ os.get_prioridade_display }}</td>
         <td class="px-6 py-3">{{ os.cod_cliente }}</td>
       </tr>
       {% empty %}
