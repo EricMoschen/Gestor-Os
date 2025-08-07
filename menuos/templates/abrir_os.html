@@ -118,22 +118,37 @@
           class="mt-1 block w-full rounded-md bg-white/5 px-3 py-2 text-white border border-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-indigo-500 sm:text-sm" />
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-200">Situação do
-          Equipamento</label>
-        <select
-          name="prioridade"
-          id="prioridade"
-          required
-          class="mt-1 block w-full rounded-md bg-white/5 px-3 py-2 text-white border border-white/10 focus:ring-2 focus:ring-indigo-500 sm:text-sm">
-          <option value="MaquinaParada" {% if form.prioridade.value == "MaquinaParada" %}selected{% endif %}>Máquina Parada</option>
-          <option value="OperandoDefeito" {% if form.prioridade.value == "OperandoDefeito" %}selected{% endif %}>Operando Com Defeito</option>
-          <option value="OperandoProgramada" {% if form.prioridade.value == "OperandoProgramada" %}selected{% endif %}>Operando Programada</option>
-          <option value="OperandoParadaMelhoria" {% if form.prioridade.value == "OperandoParadaMelhoria" %}selected{% endif %}>Máquina Parada Melhoria</option>
-          <option value="OperandoMelhoria" {% if form.prioridade.value == "OperandoMelhoria" %}selected{% endif %}>Operando Melhoria</option>
-          <option value="Outros" {% if form.prioridade.value == "Outros" %}selected{% endif %}>Outros</option>
-        </select>
-      </div>
+     <div>
+  <label class="block text-sm font-medium text-gray-200">Situação do Equipamento</label>
+  <select
+    name="prioridade"
+    id="prioridade"
+    required
+    class="mt-1 block w-full rounded-md bg-white/5 px-3 py-2 text-white border border-white/10 focus:ring-2 focus:ring-indigo-500 sm:text-sm">
+    
+    <option class="bg-slate-900 text-white" value>Selecione</option>
+
+    <option class="bg-slate-900 text-white" value="MaquinaParada" {% if form.prioridade.value == "MaquinaParada" %}selected{% endif %}>
+      Máquina Parada
+    </option>
+    <option class="bg-slate-900 text-white" value="OperandoDefeito" {% if form.prioridade.value == "OperandoDefeito" %}selected{% endif %}>
+      Operando Com Defeito
+    </option>
+    <option class="bg-slate-900 text-white" value="OperandoProgramada" {% if form.prioridade.value == "OperandoProgramada" %}selected{% endif %}>
+      Operando Programada
+    </option>
+    <option class="bg-slate-900 text-white" value="OperandoParadaMelhoria" {% if form.prioridade.value == "OperandoParadaMelhoria" %}selected{% endif %}>
+      Máquina Parada Melhoria
+    </option>
+    <option class="bg-slate-900 text-white" value="OperandoMelhoria" {% if form.prioridade.value == "OperandoMelhoria" %}selected{% endif %}>
+      Operando Melhoria
+    </option>
+    <option class="bg-slate-900 text-white" value="Outros" {% if form.prioridade.value == "Outros" %}selected{% endif %}>
+      Outros
+    </option>
+  </select>
+</div>
+
 
       <div>
         <button
