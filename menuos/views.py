@@ -237,13 +237,7 @@ def buscar_dados_os(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 @permission_required('menuos.iniciar_os', raise_exception=True)
-
 def iniciar_os_view(request):
-    """
-    Tela para iniciar OS e registrar o início do trabalho.
-    No GET: exibe formulário.
-    No POST (JSON): registra início da OS para o colaborador.
-    """
     if request.method == "POST":
         if not request.body:
             return JsonResponse({"sucesso": False, "mensagem": "Dados não enviados."})
@@ -256,16 +250,15 @@ def iniciar_os_view(request):
             colaborador = Colaborador.objects.get(matricula=matricula)
             os = AberturaOS.objects.get(numero_os=numero_os)
 
-            #  Impede iniciar OS já finalizada
             if os.status == "Finalizada":
                 return JsonResponse({
                     "sucesso": False,
                     "mensagem": "Esta Ordem de Serviço já está finalizada e não pode ser iniciada."
                 })
-                
+
             RegistroInicioOS.objects.create(
-                matricula=matricula,
-                numero_os=numero_os
+                colaborador=colaborador,
+                abertura_os=os
             )
 
             return JsonResponse({"sucesso": True})
@@ -277,7 +270,6 @@ def iniciar_os_view(request):
             return JsonResponse({"sucesso": False, "mensagem": str(e)})
 
     return render(request, 'menuos/lancamento_os.html')
-
 
 # Cadastro de Colaboradores
 

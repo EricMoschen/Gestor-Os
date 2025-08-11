@@ -85,52 +85,48 @@ class Colaborador(models.Model):
 class RegistroInicioOS(models.Model):
     """
     Modelo que registra o início de uma OS por um colaborador.
-    Armazena matrícula do colaborador, número da OS e horário de início.
+    Armazena referência ao colaborador, à OS e horário de início.
     Também categoriza o dia (normal, sábado, domingo/feriado) automaticamente.
     """
-    # Categorias de dias para registro
     DIA_CHOICES = [
         ('ND', 'Dia Normal (Seg-Sex)'),
         ('SA', 'Sábado'),
         ('DF', 'Domingo ou Feriado'),
     ]
 
-    matricula = models.CharField(max_length=20)
-    numero_os = models.CharField(max_length=20)
+    colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
+    abertura_os = models.ForeignKey(AberturaOS, on_delete=models.CASCADE)
     hora_inicio = models.DateTimeField(default=timezone.now)
     hora_fim = models.DateTimeField(null=True, blank=True)
     codigo_dia = models.CharField(max_length=2, choices=DIA_CHOICES, blank=True)
 
     def save(self, *args, **kwargs):
-        # Atualiza o último lançamento sem hora_fim para este colaborador
-        if not self.pk:  # Só faz isso ao criar novo registro
+        if not self.pk:
             ultimo = RegistroInicioOS.objects.filter(
-                matricula=self.matricula,
+                colaborador=self.colaborador,
                 hora_fim__isnull=True
             ).order_by('-hora_inicio').first()
 
             if ultimo:
-                ultimo.hora_fim = self.hora_inicio  # Hora atual usada como fim do anterior
+                ultimo.hora_fim = self.hora_inicio
                 ultimo.save()
 
-        # Define o código do dia automaticamente
         data = self.hora_inicio.date()
-        semana = self.hora_inicio.weekday()  # 0 = segunda, ..., 6 = domingo
+        semana = self.hora_inicio.weekday()
         feriados = holidays.Brazil(years=self.hora_inicio.year)
 
-
         if data in feriados or semana == 6:
-            self.codigo_dia = 'DF'  # Domingo ou feriado
+            self.codigo_dia = 'DF'
         elif semana == 5:
-            self.codigo_dia = 'SA'  # Sábado
+            self.codigo_dia = 'SA'
         else:
-            self.codigo_dia = 'ND'  # Dia normal (segunda a sexta, não feriado)
+            self.codigo_dia = 'ND'
 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.matricula} - OS {self.numero_os}"
-    
+        return f"{self.colaborador.matricula} - OS {self.abertura_os.numero_os}"
+
 
 
     #  Permissões de acesso
