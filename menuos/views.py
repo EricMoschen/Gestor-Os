@@ -215,7 +215,7 @@ def buscar_dados_os(request):
     Retorna JSON com validade e informações básicas.
     """
     numero_os = request.GET.get('numero_os', '').strip()
-    matricula = request.GET.get('matricula', '').strip()
+    matricula = request.GET.get('abertura_os', '').strip()
 
     if not numero_os or not matricula:
         return JsonResponse({'valido': False, 'mensagem': 'Campos obrigatórios não preenchidos.'}, status=400)
@@ -244,7 +244,7 @@ def iniciar_os_view(request):
 
         try:
             data = json.loads(request.body)
-            matricula = data.get("matricula")
+            matricula = data.get("abertura_os")
             numero_os = data.get("numero_os")
 
             colaborador = Colaborador.objects.get(matricula=matricula)
