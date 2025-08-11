@@ -24,8 +24,8 @@ urlpatterns = [
     path('buscar-dados-os/', views.buscar_dados_os, name='buscar_dados_os'),  # Busca dados via AJAX de OS e colaborador
 
     # Rotas para lançamentos e visualizações adicionais
-    # path('lancamento-os/', views.lancamento_os, name='lancamento_os'),  # Tela para lançamento de OS (início do trabalho)
-    # path('listar-horas/', views.listar_horas, name='listar_horas'),  # Tela para listar horas lançadas pelos colaboradores
+    path('lancamento-os/', views.lancamento_os, name='lancamento_os'),  # Tela para lançamento de OS (início do trabalho)
+    path('listar-horas/', views.listar_horas, name='listar_horas'),  # Tela para listar horas lançadas pelos colaboradores
     
     
     # Rotas para alterar status de OS
