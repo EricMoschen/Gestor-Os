@@ -256,6 +256,13 @@ def iniciar_os_view(request):
             colaborador = Colaborador.objects.get(matricula=matricula)
             os = AberturaOS.objects.get(numero_os=numero_os)
 
+            #  Impede iniciar OS já finalizada
+            if os.status == "Finalizada":
+                return JsonResponse({
+                    "sucesso": False,
+                    "mensagem": "Esta Ordem de Serviço já está finalizada e não pode ser iniciada."
+                })
+                
             RegistroInicioOS.objects.create(
                 matricula=matricula,
                 numero_os=numero_os
