@@ -82,50 +82,50 @@ class Colaborador(models.Model):
 
 
 
-# class RegistroInicioOS(models.Model):
-#     """
-#     Modelo que registra o início de uma OS por um colaborador.
-#     Armazena referência ao colaborador, à OS e horário de início.
-#     Também categoriza o dia (normal, sábado, domingo/feriado) automaticamente.
-#     """
-#     DIA_CHOICES = [
-#         ('ND', 'Dia Normal (Seg-Sex)'),
-#         ('SA', 'Sábado'),
-#         ('DF', 'Domingo ou Feriado'),
-#     ]
+class RegistroInicioOS(models.Model):
+    """
+    Modelo que registra o início de uma OS por um colaborador.
+    Armazena referência ao colaborador, à OS e horário de início.
+    Também categoriza o dia (normal, sábado, domingo/feriado) automaticamente.
+    """
+    DIA_CHOICES = [
+        ('ND', 'Dia Normal (Seg-Sex)'),
+        ('SA', 'Sábado'),
+        ('DF', 'Domingo ou Feriado'),
+    ]
 
-#     colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
-#     abertura_os = models.ForeignKey(AberturaOS, on_delete=models.CASCADE)
-#     hora_inicio = models.DateTimeField(default=timezone.now)
-#     hora_fim = models.DateTimeField(null=True, blank=True)
-#     codigo_dia = models.CharField(max_length=2, choices=DIA_CHOICES, blank=True)
+    colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
+    abertura_os = models.ForeignKey(AberturaOS, on_delete=models.CASCADE)
+    hora_inicio = models.DateTimeField(default=timezone.now)
+    hora_fim = models.DateTimeField(null=True, blank=True)
+    codigo_dia = models.CharField(max_length=2, choices=DIA_CHOICES, blank=True)
 
-#     def save(self, *args, **kwargs):
-#         if not self.pk:
-#             ultimo = RegistroInicioOS.objects.filter(
-#                 colaborador=self.colaborador,
-#                 hora_fim__isnull=True
-#             ).order_by('-hora_inicio').first()
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            ultimo = RegistroInicioOS.objects.filter(
+                colaborador=self.colaborador,
+                hora_fim__isnull=True
+            ).order_by('-hora_inicio').first()
 
-#             if ultimo:
-#                 ultimo.hora_fim = self.hora_inicio
-#                 ultimo.save()
+            if ultimo:
+                ultimo.hora_fim = self.hora_inicio
+                ultimo.save()
 
-#         data = self.hora_inicio.date()
-#         semana = self.hora_inicio.weekday()
-#         feriados = holidays.Brazil(years=self.hora_inicio.year)
+        data = self.hora_inicio.date()
+        semana = self.hora_inicio.weekday()
+        feriados = holidays.Brazil(years=self.hora_inicio.year)
 
-#         if data in feriados or semana == 6:
-#             self.codigo_dia = 'DF'
-#         elif semana == 5:
-#             self.codigo_dia = 'SA'
-#         else:
-#             self.codigo_dia = 'ND'
+        if data in feriados or semana == 6:
+            self.codigo_dia = 'DF'
+        elif semana == 5:
+            self.codigo_dia = 'SA'
+        else:
+            self.codigo_dia = 'ND'
 
-#         super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
-#     def __str__(self):
-#         return f"{self.colaborador.matricula} - OS {self.abertura_os.numero_os}"
+    def __str__(self):
+        return f"{self.colaborador.matricula} - OS {self.abertura_os.numero_os}"
 
 
 
