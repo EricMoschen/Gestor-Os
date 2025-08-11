@@ -234,42 +234,42 @@ def buscar_dados_os(request):
 
 
 # Início da OS (registro do início do trabalho)
-@login_required
-@require_http_methods(["GET", "POST"])
-@permission_required('menuos.iniciar_os', raise_exception=True)
-def iniciar_os_view(request):
-    if request.method == "POST":
-        if not request.body:
-            return JsonResponse({"sucesso": False, "mensagem": "Dados não enviados."})
+# @login_required
+# @require_http_methods(["GET", "POST"])
+# @permission_required('menuos.iniciar_os', raise_exception=True)
+# def iniciar_os_view(request):
+#     if request.method == "POST":
+#         if not request.body:
+#             return JsonResponse({"sucesso": False, "mensagem": "Dados não enviados."})
 
-        try:
-            data = json.loads(request.body)
-            matricula = data.get("matricula")
-            numero_os = data.get("numero_os")
+#         try:
+#             data = json.loads(request.body)
+#             matricula = data.get("matricula")
+#             numero_os = data.get("numero_os")
 
-            colaborador = Colaborador.objects.get(matricula=matricula)
-            os = AberturaOS.objects.get(numero_os=numero_os)
+#             colaborador = Colaborador.objects.get(matricula=matricula)
+#             os = AberturaOS.objects.get(numero_os=numero_os)
 
-            if os.status == "Finalizada":
-                return JsonResponse({
-                    "sucesso": False,
-                    "mensagem": "Esta Ordem de Serviço já está finalizada e não pode ser iniciada."
-                })
+#             if os.status == "Finalizada":
+#                 return JsonResponse({
+#                     "sucesso": False,
+#                     "mensagem": "Esta Ordem de Serviço já está finalizada e não pode ser iniciada."
+#                 })
 
-            RegistroInicioOS.objects.create(
-                colaborador=colaborador,
-                abertura_os=os
-            )
+#             RegistroInicioOS.objects.create(
+#                 colaborador=colaborador,
+#                 abertura_os=os
+#             )
 
-            return JsonResponse({"sucesso": True})
-        except Colaborador.DoesNotExist:
-            return JsonResponse({"sucesso": False, "mensagem": "Colaborador não encontrado."})
-        except AberturaOS.DoesNotExist:
-            return JsonResponse({"sucesso": False, "mensagem": "Ordem de Serviço não encontrada."})
-        except Exception as e:
-            return JsonResponse({"sucesso": False, "mensagem": str(e)})
+#             return JsonResponse({"sucesso": True})
+#         except Colaborador.DoesNotExist:
+#             return JsonResponse({"sucesso": False, "mensagem": "Colaborador não encontrado."})
+#         except AberturaOS.DoesNotExist:
+#             return JsonResponse({"sucesso": False, "mensagem": "Ordem de Serviço não encontrada."})
+#         except Exception as e:
+#             return JsonResponse({"sucesso": False, "mensagem": str(e)})
 
-    return render(request, 'menuos/lancamento_os.html')
+#     return render(request, 'menuos/lancamento_os.html')
 
 # Cadastro de Colaboradores
 
@@ -292,21 +292,21 @@ def cadastrar_colaborador(request):
 
 
 # Lançamento/Apontamento de Ordens de Serviço Pelos Colaboradores
-@login_required
-@permission_required('menuos.lancamento_os', raise_exception=True)
-def lancamento_os(request):
-    """
-    Renderiza a tela para lançamento/início da OS.
-    """
-    return render(request, 'menuos/lancamento_os.html')
+# @login_required
+# @permission_required('menuos.lancamento_os', raise_exception=True)
+# def lancamento_os(request):
+#     """
+#     Renderiza a tela para lançamento/início da OS.
+#     """
+#     return render(request, 'menuos/lancamento_os.html')
 
 
 # Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
-@login_required
-@permission_required('menuos.listar_horas', raise_exception=True)
-def listar_horas(request):
-    registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
-    return render(request, 'menuos/listar_horas.html', {'registros': registros})
+# @login_required
+# @permission_required('menuos.listar_horas', raise_exception=True)
+# def listar_horas(request):
+#     registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
+#     return render(request, 'menuos/listar_horas.html', {'registros': registros})
 
 
 # Logout do Usuário
