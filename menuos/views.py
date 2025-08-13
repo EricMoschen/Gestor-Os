@@ -27,7 +27,7 @@ def menuos_view(request):
     Renderiza a página principal do sistema de Ordens de Serviço (Menu).
     Apenas usuários autenticados podem acessar.
     """
-    return render(request, 'menuos.html')
+    return render(request, 'menu_os.html')
 
 
 #  Geração Automática do Número da Ordem de Serviço (OS)  
@@ -148,7 +148,7 @@ def listar_os(request):
         os.numero_os[-2:] for os in AberturaOS.objects.all()
     ]), reverse=True)
 
-    return render(request, 'listar-os.html', {
+    return render(request, 'listar_os.html', {
         'os_list': os_list,
         'anos_disponiveis': anos_disponiveis,
         'ano_selecionado': ano,
@@ -164,7 +164,7 @@ def listar_os(request):
 @login_required
 def detalhes_os(request, numero_os):
     os = get_object_or_404(AberturaOS, numero_os=numero_os)
-    return render(request, 'detalhes-os.html', {'os': os})
+    return render(request, 'detalhes_os.html', {'os': os})
 
 # Cadastro de Clientes
 
