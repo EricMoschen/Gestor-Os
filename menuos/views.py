@@ -269,7 +269,7 @@ def iniciar_os_view(request):
         except Exception as e:
             return JsonResponse({"sucesso": False, "mensagem": str(e)})
 
-    return render(request, 'menuos/lancamento_os.html')
+    return render(request, 'lancamento_os.html')
 
 # Cadastro de Colaboradores
 
@@ -298,7 +298,7 @@ def lancamento_os(request):
     """
     Renderiza a tela para lançamento/início da OS.
     """
-    return render(request, 'menuos/lancamento_os.html')
+    return render(request, 'lancamento_os.html')
 
 
 # Listagem das Horas Lançadas/Apontadas Pelos Colaboradores
@@ -306,7 +306,7 @@ def lancamento_os(request):
 @permission_required('menuos.listar_horas', raise_exception=True)
 def listar_horas(request):
     registros = RegistroInicioOS.objects.all().order_by('-hora_inicio')  # ordena do mais recente
-    return render(request, 'menuos/listar_horas.html', {'registros': registros})
+    return render(request, 'listar_horas.html', {'registros': registros})
 
 
 # Logout do Usuário
