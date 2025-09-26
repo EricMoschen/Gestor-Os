@@ -49,8 +49,38 @@ Documentação do Sistema Gestro-OS
 
 4. Estrutura do Sistema
   
+    4.1 Apps Principais
+      4.1.1 core
+        -> Responsável pela configuração do sistema
+      4.1.2 usuario
+        -> Responsável pela validação do usuario 
+      4.1.3 -> menuos
+        -> Responsável pela abertura e gerenciamento das Os
+
+    4.2 Models Principais
+
+      4.2.1 CentroDeCusto
+        -> Armazena os dados dos Centros de Custos cadastrados
+      4.2.2 Cliente
+        -> Armazena os dados dos Clientes cadastarados
+      4.2.3 MotivoIntervencao
+        ->  Armazena os dados dos motivos de intervenção cadastarados
+      4.2.4 AberturaOS
+        -> Armazena os dados das Ordens de serviço abertas
+      4.2.5 Colaborador
+        -> Armazena os dados dos Colaborador cadastarados
+      4.2.6 RegistroInicioOS
+        -> Armazena os registro de inicio e fim das horas dos colaboradores nas Ordem de Servico
+      4.2.7 OrdemServico
+        -> Armazenam as definiçoes de acessos para cadas usuario
 
 
+      
+      
+      
+      
+       
+       
 
 
 
