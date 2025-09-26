@@ -1,1 +1,61 @@
 Documentação do Sistema Gestro-OS
+
+
+1. Introdução 
+    O Gestor-OS é um sistema desenvolvido em Django para gerenciamento de Ordens de Serviço (OS).
+    Ele foi criado para organizar o fluxo de abertura, acompanhamento e execução de ordens de serviço, permitindo maior controle e               eficiência nos processos internos.
+
+  1.1 Objetivos
+    -> Centralizar as Informações das OS
+    -> Permitir a abertura e consulta de OS de forma Pratica
+    -> Controlar a execução de atividades por colaboradores
+    ->  
+
+
+2. Tecnologias Utilizadas
+  2.1 Backand
+    -> Django (Python)
+  2.2 Frontand
+    -> HTML5
+    -> TailwindCSS
+    -> JavaScript (AJAX)
+  2.3 Banco de Dados
+    -> SQLite (em desenvolvimento) / PostgreSQL (produção sugerida)
+
+3. Instalação e Configuração 
+  3.1 Pré-requisitos
+    -> Python 3.10+
+    -> Pip
+    -> Virtualenv ( opcional, mas recomendado)
+
+  3.2 Passos
+    3.2.1 Clonar repositório 
+        -> git clone https://github.com/EricMoschen/Gestor-Os.git
+    3.2.2 Entrar no diretório
+        -> cd GESTOR-OS
+    3.2.3 Criar ambiente virtual
+        -> python -m venv venv
+           source venv/bin/active  # Linux/Mac
+           vevn\Scripts\activate   # Windows
+    3.2.4 Instalar dependências
+        -> pip install -r requirements.txt
+    3.2.5 Migrar Bancos 
+        -> python manage.py migrate
+    3.2.6 Criar superusuário
+        -> python manage.py createsuperuser
+    3.2.7 Rodar servidor 
+        -> python manage.py runserver
+
+
+4. Estrutura do Sistema
+  
+
+
+
+
+
+
+
+
+
+
